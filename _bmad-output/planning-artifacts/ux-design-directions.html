@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinCie — Design Direction: The Quiet Atelier</title>
+<style>
+  /* === TOKENS === */
+  :root {
+    --paper: oklch(97% 0.008 80);
+    --ink: oklch(18% 0.008 80);
+    --meta: oklch(50% 0.005 80);
+    --hairline: oklch(85% 0.005 80);
+    --baseline: 28px;
+    --measure: 65ch;
+    --font-serif: 'Georgia', 'Times New Roman', serif;
+    --font-mono: 'Menlo', 'Consolas', monospace;
+  }
+
+  /* === RESET === */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* === BASE === */
+  html {
+    font-size: 18px;
+    line-height: 1.555;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  body {
+    font-family: var(--font-serif);
+    min-height: 100vh;
+    padding: calc(var(--baseline) * 2);
+  }
+
+  /* === FRAME (Corner Labels) === */
+  .frame-tl, .frame-tr, .frame-bl, .frame-br {
+    position: fixed;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--meta);
+    letter-spacing: 0.01em;
+    z-index: 100;
+  }
+  .frame-tl { top: var(--baseline); left: var(--baseline); }
+  .frame-tr { top: var(--baseline); right: var(--baseline); }
+  .frame-bl { bottom: var(--baseline); left: var(--baseline); }
+  .frame-br { bottom: var(--baseline); right: var(--baseline); }
+  .frame-tl a { color: var(--meta); text-decoration: none; }
+  .frame-tl a:hover { text-decoration: underline; }
+
+  /* === LAYOUT === */
+  .page { max-width: var(--measure); margin: 0 auto; padding-top: calc(var(--baseline) * 4); }
+
+  /* === TYPOGRAPHY === */
+  .display {
+    font-size: clamp(2.5rem, 6.5vw, 4.25rem);
+    font-weight: 400;
+    line-height: 1.05;
+    margin-bottom: var(--baseline);
+  }
+  .headline {
+    font-size: clamp(1.75rem, 3.2vw, 2.25rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: var(--baseline);
+  }
+  .body-text {
+    font-size: 1.125rem;
+    line-height: 1.555;
+    margin-bottom: var(--baseline);
+    max-width: var(--measure);
+  }
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--meta);
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+  }
+
+  /* === DROP CAP === */
+  .drop-cap::first-letter {
+    float: left;
+    font-size: 4.67rem;
+    font-weight: 600;
+    line-height: 0.8;
+    padding-right: 0.08em;
+    margin-top: 0.05em;
+    color: var(--ink);
+  }
+
+  /* === INLINE LINKS === */
+  a.inline-link {
+    color: var(--ink);
+    text-decoration: none;
+    position: relative;
+  }
+  a.inline-link::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--ink);
+    transition: width 0.25s ease;
+  }
+  a.inline-link:hover::after,
+  a.inline-link:focus-visible::after {
+    width: 100%;
+  }
+
+  /* === SECTIONS === */
+  .section-divider {
+    height: calc(var(--baseline) * 6);
+  }
+  .section-divider-mobile {
+    height: calc(var(--baseline) * 3);
+  }
+
+  /* === PROJECT BAND === */
+  .project-band {
+    min-height: 35vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding: calc(var(--baseline) * 2) 0;
+  }
+  .project-band .project-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.05;
+    margin-bottom: calc(var(--baseline) * 0.5);
+  }
+  .project-band .project-meta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--meta);
+    letter-spacing: 0.01em;
+  }
+
+  /* === COLOPHON === */
+  .colophon {
+    margin-top: calc(var(--baseline) * 4);
+    padding-top: var(--baseline);
+    border-top: 1px solid var(--hairline);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--meta);
+    line-height: 1.8;
+  }
+  .colophon a {
+    color: var(--meta);
+    text-decoration: none;
+  }
+  .colophon a:hover { text-decoration: underline; }
+
+  /* === FOOTNOTE === */
+  .footnote-ref {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    vertical-align: super;
+    color: var(--meta);
+    text-decoration: none;
+  }
+
+  /* === HAIRLINE (Project Spine) === */
+  .spine {
+    position: absolute;
+    left: -2rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--hairline);
+  }
+  .spine-tick {
+    position: absolute;
+    left: -2rem;
+    width: 6px;
+    height: 1px;
+    background: var(--hairline);
+  }
+
+  /* === DEMO SECTIONS === */
+  .demo-section {
+    margin-bottom: calc(var(--baseline) * 4);
+    padding: calc(var(--baseline) * 2);
+    border: 1px solid var(--hairline);
+    border-radius: 2px;
+  }
+  .demo-section h3 {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--meta);
+    margin-bottom: var(--baseline);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* === ITALIC CLOSING === */
+  .closing-line {
+    font-style: italic;
+    margin-top: calc(var(--baseline) * 2);
+    color: var(--ink);
+  }
+  .closing-line a { color: var(--ink); }
+
+  /* === 404 === */
+  .four-oh-four {
+    text-align: center;
+    padding: calc(var(--baseline) * 6) 0;
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    body { padding: var(--baseline); }
+    .frame-bl, .frame-tr { display: none; }
+    .page { padding-top: calc(var(--baseline) * 3); }
+    .section-divider { height: calc(var(--baseline) * 3); }
+    .project-band { min-height: auto; padding: var(--baseline) 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- FRAME -->
+<div class="frame-tl"><a href="#">INDEX</a></div>
+<div class="frame-tr">14:32 LOCAL</div>
+<div class="frame-bl">WORK</div>
+<div class="frame-br">001 / 003</div>
+
+<!-- PAGE CONTENT -->
+<div class="page">
+
+  <!-- DEMO: Home Page -->
+  <div class="demo-section">
+    <h3>Surface 1 — Home Page (First Viewport)</h3>
+
+    <p class="body-text">LinCie is a thinker who builds. Engineering, research, and design as expressions of the same considered voice.</p>
+
+    <p class="body-text" style="margin-top: var(--baseline);">
+      <a href="#" class="inline-link">Say hello</a>
+    </p>
+
+    <div style="margin-top: calc(var(--baseline) * 2);">
+      <p class="body-text"><a href="#" class="inline-link">Designing the Reverse-Scroll</a></p>
+      <p class="label" style="margin-top: 4px;">2026 — Engineering, Design</p>
+    </div>
+
+    <div style="margin-top: var(--baseline);">
+      <p class="body-text"><a href="#" class="inline-link">On Considered Interfaces</a></p>
+      <p class="label" style="margin-top: 4px;">2026 — Writing</p>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- DEMO: Project Band (Index) -->
+  <div class="demo-section">
+    <h3>Surface 2 — Project Index Band</h3>
+
+    <div class="project-band">
+      <div class="project-title">Designing the Reverse-Scroll</div>
+      <div class="project-meta">2026 — Engineering, Design</div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- DEMO: Essay Page Opening -->
+  <div class="demo-section">
+    <h3>Surface 3 — Essay Page (with Drop Cap)</h3>
+
+    <div class="headline" style="margin-bottom: calc(var(--baseline) * 1.5);">On Considered Interfaces</div>
+
+    <p class="body-text drop-cap">There is a particular quality to software that rewards re-reading. Not complexity for its own sake, but depth that reveals itself gradually, the way a well-edited essay yields new meaning on the second pass.<a href="#" class="footnote-ref">[1]</a> The best interfaces share this quality. They are simple on first encounter and rich on return.</p>
+
+    <p class="body-text">Most portfolios optimize for the first impression. They announce, they summarize, they sell. But the visitor who matters most is not the one who bounces in three seconds. It is the one who stays for thirty minutes and leaves thinking about what they read.</p>
+
+    <p class="body-text">This is the tension at the heart of any personal site: how do you serve the fast scanner and the slow reader with the same surface?</p>
+
+    <p class="closing-line">This was made by LinCie. <a href="mailto:contact@lincie.me" class="inline-link">Reach out if it speaks to you.</a></p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- DEMO: 404 -->
+  <div class="demo-section">
+    <h3>Surface 4 — 404 Page</h3>
+
+    <div class="four-oh-four">
+      <p class="body-text">This page seems to have been left out of the index. Try <a href="#" class="inline-link">the home page</a>, <a href="#" class="inline-link">the project</a>, or <a href="#" class="inline-link">the essay</a>.</p>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- DEMO: Colophon -->
+  <div class="demo-section">
+    <h3>Component — Colophon</h3>
+
+    <div class="colophon">
+      <p>Set in Newsreader and Commit Mono, both SIL OFL 1.1.</p>
+      <p>2026</p>
+      <p><a href="mailto:contact@lincie.me">contact@lincie.me</a></p>
+      <p style="margin-top: calc(var(--baseline) * 0.5);">
+        → <a href="#">github</a>&nbsp;&nbsp;&nbsp;↗ <a href="#">twitter</a>&nbsp;&nbsp;&nbsp;↗ <a href="#">are.na</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- DEMO: Hover Language -->
+  <div class="demo-section">
+    <h3>Component — Inline Links (Hover to see inkstroke)</h3>
+
+    <p class="body-text">
+      This is body text with an <a href="#" class="inline-link">internal link</a> that draws an underline on hover. External links would show a <a href="#" class="inline-link">domain annotation ↗</a> on hover.
+    </p>
+    <p class="body-text" style="margin-top: var(--baseline);">
+      Names like <span style="transition: font-weight 0.25s; cursor: default;" onmouseover="this.style.fontWeight='500'" onmouseout="this.style.fontWeight='400'">Dieter Rams</span> get a subtle weight increase on hover.
+    </p>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- DEMO: Type Scale -->
+  <div class="demo-section">
+    <h3>Type Scale</h3>
+
+    <div class="display" style="margin-bottom: calc(var(--baseline) * 1.5);">Display — Project Titles</div>
+    <div class="headline" style="margin-bottom: var(--baseline);">Headline — Section Openers</div>
+    <div style="font-size: 1.575rem; font-weight: 500; line-height: 1.3; margin-bottom: var(--baseline);">Title — Subheads</div>
+    <p class="body-text">Body — Essay and project prose at 1.125rem with 1.555 line-height on a 28px baseline grid. The measure stays between 65 and 75 characters for comfortable reading.</p>
+    <p class="label" style="margin-top: var(--baseline);">Label — Corner labels, folio, project meta, footnote text in Commit Mono at 0.75rem</p>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+# Reconcile: PRODUCT.md vs prd.md
+
+## Coverage summary
+
+The PRD absorbs PRODUCT.md's structural content (users, purpose, accessibility target, voice prohibitions) and operationalizes it into testable FRs and NFRs. Coverage of qualitative/brand content is uneven: voice prohibitions ("no exclamation points", "no passionate about", "no buzzwords") survive, but the PRD silently drops several signature framings — the named Design Principles list, the three-word brand distillation, the "tea room vs museum lobby" metaphor, and a chunk of the anti-reference catalogue — that downstream UX/architecture readers would otherwise miss.
+
+## Gaps (content in PRODUCT.md missing or weakened in prd.md)
+
+- **Five named Design Principles dropped as a structured list.** PRODUCT.md §"Design Principles" canonically names and defines five principles: Quiet Confidence, Craft as Proof, Substance over Performance, Patient Pacing, Long Half-Life. prd.md references three of them in passing (FR §4.3 Quiet Confidence; §4.8 Substance over Performance; §4.12 Patient Pacing) but never reproduces the list, and **Craft as Proof** and **Long Half-Life** are not named anywhere in prd.md. A reader of the PRD alone cannot recover the principles or their definitions.
+
+- **Brand personality distillation "considered, disciplined, warm" missing.** PRODUCT.md §"Brand Personality" opens with these three words as the brand's core triad ("Quiet, decisive, sharp. Low words, high signal. Three words: considered, disciplined, warm."). None of "considered, disciplined, warm", "low words, high signal", or "quiet, decisive, sharp" appear in prd.md. The closest equivalent is the locked direction "Quiet Atelier with a Warm Trace" (§1), which is a different register.
+
+- **Voice fingerprint phrases lost.** PRODUCT.md §"Brand Personality" carries several load-bearing voice rules that prd.md §11 "Voice rules for site copy" does not preserve: "Headlines do not announce; they are simply present"; "Body text reads like an edited essay, not a pitch deck"; "Metadata is set in monospace and treated as the museum wall label, not the headline"; the "tea room rather than a museum lobby" mood (prd.md §11 reduces this to "Calm tea-room layout" with the museum-lobby contrast and the tea-room/museum-lobby distinction stripped); and the "faint warm trace… like a fingerprint of where the visitor has been" framing of the cursor (prd.md FR-16 keeps the technical spec but loses the metaphor).
+
+- **Anti-reference catalogue collapsed.** PRODUCT.md §"Anti-references" is a substantive list. prd.md §11 reduces it to a single "Highlights" sentence and points back to PRODUCT.md/DESIGN.md. Items present in PRODUCT.md but not surfaced in prd.md include: the **hero-metric template** ("big number, small label, supporting stats, gradient accent"); the **2014 SaaS portfolio** detail (dense feature cards, oversized CTAs, social-proof rails, primary-color buttons); the **2025 cream-paper editorial portfolio** trap ("sterile and identical to fifty others"); **Wes Anderson twee** (decorative crop marks, fake stamps, sectional § marginalia); **antiquarian/parchment aesthetics** with the explicit "Modernist atelier, not academic dust" guidance; and the **"modern museum lobby that shows off its own architecture — the frame should not call attention to itself"** rule. A UX or architecture agent reading only prd.md will not see these.
+
+- **Central product thesis weakened.** PRODUCT.md §"Product Purpose" leads with "The site is the work, not a frame around it. Its purpose is to evidence quiet confidence and considered craft through the experience of using it, so that the right opportunities and collaborators self-select." prd.md §1 Vision restates the purpose in different words but does not carry the "site is the work, not a frame around it" formulation or the "self-select" mechanism, and the line "The home page introduces, the project pages exhibit, the writing thinks aloud" is also gone. The identity sentence is partially preserved in §1 but loses "Engineering, research, and design are expressions of the same considered voice, **not separate hats**."
+
+- **Secondary audience flattened.** PRODUCT.md §"Users" gives curious visitors a substantive treatment ("Drawn in from a writing piece, a project, or a link from someone they trust. They are not deciding anything; they are spending time. They reward depth and pacing."). prd.md §2.2 reduces them to a one-line JTBD ("spend time without being asked anything. Reward attention with depth.") and prd.md §2.1 omits them entirely from the persona section. The "reward depth and pacing" framing — which informs Patient Pacing — is mostly lost.
+
+## Contradictions (if any)
+
+- None material. prd.md §11 adds "No em dashes in copy" as a voice rule, which is new (PRODUCT.md does not address em dashes). This is an addition, not a contradiction.
+
+## Notes
+
+- prd.md §10 NFRs and §4 FRs do faithfully encode the operational accessibility content from PRODUCT.md (WCAG 2.2 AA, semantic-first, contrast at all paper-tone bands, reduced-motion respected, decorative cursor/drift excluded from assistive announcements, damped scroll off on `pointer: coarse`, alt text on non-decorative images). The "focus states respect the same ink-on-paper aesthetic as hover states" rule is preserved indirectly via DESIGN.md reference in FR-21.
+- prd.md §11 "Aesthetic and Tone" appears to be the intended landing spot for PRODUCT.md qualitative content. Re-expanding §11 (or adding a §11.x "Design Principles" subsection that reproduces the five named principles verbatim, plus a fuller anti-reference list and the missing voice phrases) would close most of the gaps above without restructuring the PRD.
+- The brand-register field in PRODUCT.md is `brand` (a single word, top of file). prd.md does not surface this anywhere; it is not load-bearing on its own but worth a one-line note in the PRD header for completeness.
