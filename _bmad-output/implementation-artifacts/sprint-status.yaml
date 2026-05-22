@@ -44,7 +44,7 @@ story_location: "{project-root}/_bmad-output/implementation-artifacts"
 
 development_status:
   # Epic 1: Foundation — A Readable, On-Brand Static Site
-  epic-1: in-progress
+  epic-1: done
   1-1-css-token-layer-and-tailwind-theme-integration: done
   1-2-typography-pipeline-fonts-fallback-and-optical-sizing: done
   1-3-content-collections-projects-and-writing-schemas: done
@@ -52,7 +52,7 @@ development_status:
   1-5-home-page-honest-first-paint-and-content-count-logic: done
   1-6-colophon-and-404-page: done
   1-7-seo-meta-and-build-validation: done
-  epic-1-retrospective: optional
+  epic-1-retrospective: done
 
   # Epic 2: Content & Long-Form Reading — Project and Essay Pages
   epic-2: backlog
