@@ -58,7 +58,7 @@ development_status:
   epic-2: in-progress
   2-1-project-page-template-with-drop-cap-and-spine-structure: done
   2-2-essay-page-template-with-italic-closing-line: done
-  2-3-footnote-rendering-and-bidirectional-navigation: backlog
+  2-3-footnote-rendering-and-bidirectional-navigation: done
   2-4-inlinelink-component-base-styling-and-external-annotations: backlog
   2-5-project-index-bands-structure-and-static-layout: backlog
   epic-2-retrospective: optional

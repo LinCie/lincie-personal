@@ -3,6 +3,7 @@ import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Colophon from "../../components/content/Colophon.astro";
 import DropCap from "../../components/typography/DropCap.astro";
+import FootnoteReveal from "../../components/content/FootnoteReveal.astro";
 
 export async function getStaticPaths() {
   const essays = await getCollection("writing", ({ data }) => !data.draft);
@@ -74,10 +75,8 @@ const gridClass =
       </p>
     </article>
 
-    <!-- Margin column: reserved for footnotes (Story 2.3) — aria-hidden until populated -->
-    <aside class="hidden md:block" aria-hidden="true">
-      <!-- Populated by Story 2.3 (FootnoteReveal) -->
-    </aside>
+    <!-- Margin column: footnotes rendered by FootnoteReveal -->
+    <FootnoteReveal />
   </div>
 
   <div class={gridClass}>

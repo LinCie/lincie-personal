@@ -78,6 +78,129 @@ h4 {
 }
 
 /* ============================================================
+   FOOTNOTE REFERENCES (in body text)
+   Remark renders [^1] as <sup><a data-footnote-ref>1</a></sup>.
+   Style the <sup> and <a> — do NOT add a custom wrapper.
+   Scoped to .drop-cap to avoid affecting other <sup> elements
+   (math, trademark symbols, etc.) outside the prose wrapper.
+   ============================================================ */
+.drop-cap sup:has([data-footnote-ref]) {
+  font-family: var(--font-mono);
+  font-size: 0.65em;
+  line-height: 1;
+  vertical-align: super;
+}
+
+[data-footnote-ref] {
+  color: var(--meta);
+  text-decoration: none;
+  /* Minimum 44×44px tap target on mobile.
+     Padding must be in rem (not em) — the <sup> font-size is 0.65em (~11.7px),
+     so em-based padding would be far too small to meet the 44px target. */
+  padding: 1.2rem 0.5rem;
+}
+
+[data-footnote-ref]:hover,
+[data-footnote-ref]:focus-visible {
+  color: var(--ink);
+}
+
+/* ============================================================
+   FOOTNOTE MARGIN COLUMN (desktop)
+   #footnote-margin is populated by FootnoteReveal.astro script.
+   opacity: 0 by default — revealed by reverse-scroll in Story 4.4.
+   Under prefers-reduced-motion, always visible.
+   ============================================================ */
+#footnote-margin {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--meta);
+  line-height: 1.4;
+  opacity: 0;
+  padding-top: calc(var(--baseline) * 4); /* align roughly with prose start */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #footnote-margin {
+    opacity: 1 !important;
+  }
+}
+
+#footnote-margin li {
+  margin-bottom: var(--baseline);
+  list-style: none;
+  padding-left: 0;
+}
+
+/* No li::before counter label — the footnote number is conveyed by the
+   back-link's aria-label ("Back to reference 1") and the visual superscript
+   in the body text. Adding a redundant counter would duplicate information.
+   Story 4.4 may add a subtle number label if needed for visual clarity. */
+
+[data-footnote-backref] {
+  color: var(--meta);
+  text-decoration: none;
+  margin-left: 0.25em;
+}
+
+[data-footnote-backref]:hover,
+[data-footnote-backref]:focus-visible {
+  color: var(--ink);
+}
+
+/* ============================================================
+   FOOTNOTE SECTION — MOBILE (below content)
+   section[data-footnotes] stays in the content column on mobile.
+   On desktop, it is hidden after FootnoteReveal moves its <li> items.
+   ============================================================ */
+section[data-footnotes] {
+  margin-top: calc(var(--baseline) * 2); /* 56px = 2× baseline */
+  padding-top: var(--baseline);
+  border-top: 1px solid var(--hairline);
+}
+
+section[data-footnotes] ol {
+  padding-left: 0;
+  list-style: none;
+  /* Explicit counter-reset needed: list-style: none resets the implicit
+     list counter in Safari, breaking counter(list-item) in li::before. */
+  counter-reset: list-item;
+}
+
+section[data-footnotes] li {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--meta);
+  line-height: 1.4;
+  margin-bottom: var(--baseline);
+  padding-left: 1.5em;
+  position: relative;
+  counter-increment: list-item;
+}
+
+section[data-footnotes] li::before {
+  content: counter(list-item) ".";
+  position: absolute;
+  left: 0;
+  color: var(--meta);
+}
+
+/* Hide the footnote section on desktop after FootnoteReveal moves its items.
+   visibility: hidden (not display: none) keeps the <h2 id="footnote-label">
+   in the accessibility tree so aria-describedby="footnote-label" on footnote
+   refs continues to resolve correctly for screen readers. */
+@media (min-width: 768px) {
+  section[data-footnotes].footnotes-moved {
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+}
+
+/* ============================================================
    METRIC-MATCHED FALLBACK (optional — only add if needed)
    Astro's auto-generated fallback (from the fallbacks array in
    astro.config.mjs) handles CLS prevention automatically.

@@ -47,3 +47,9 @@
 - `[&_p]:mb-7` on the prose wrapper applies to every `<p>` inside the div, including paragraphs inside the `<section data-footnotes>` block rendered by remark for `[^1]` syntax. Footnote list items get 28px bottom margin. Pre-existing pattern (same as project page); Story 2.3 owns all footnote styling and will address this.
 - Drop cap silently absent if an essay's first rendered element is not a `<p>` (e.g. starts with `<h2>`, blockquote, or list). Content authoring constraint; same pre-existing limitation as project page. Document as a content convention or address with a CSS workaround in a future story.
 - `aria-hidden="true"` is hardcoded on the margin `<aside>`. Story 2.3 must remove this attribute when it injects footnote content into the aside, or screen readers will not announce the footnotes. Add a TODO comment in Story 2.3's task list.
+
+## Deferred from: code review of 2-3-footnote-rendering-and-bidirectional-navigation (2026-05-22)
+
+- `opacity: 0` on `#footnote-margin` with no fallback — footnotes are permanently invisible to sighted desktop users until Story 4.4 ships the reverse-scroll reveal. Intentional design decision documented in spec. Story 4.4 owns the reveal animation.
+- Desktop→mobile resize leaves footnotes invisible — the DOM-move approach moves `<li>` items at page-load time. A subsequent resize to mobile leaves the margin column hidden and the original `section[data-footnotes]` empty. Accepted as a known limitation of the DOM-move architecture; page reload restores correct state. Revisit if resize support becomes a requirement.
+- Footnote vertical alignment is approximate — `padding-top: calc(var(--baseline) * 4)` aligns the container, not individual footnotes. Per-footnote positioning (aligning each footnote next to its reference in the body) deferred to Story 4.4 (GSAP ScrollTrigger).

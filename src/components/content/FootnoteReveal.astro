@@ -1,0 +1,42 @@
+---
+// src/components/content/FootnoteReveal.astro
+// Renders the margin column footnote container.
+// A client script moves footnote <li> items from the remark-generated
+// <section data-footnotes> into this aside on desktop.
+// On mobile, the original <section data-footnotes> remains visible in the content column.
+---
+
+<aside aria-label="Footnotes" class="hidden md:block">
+  <div id="footnote-margin">
+    <!-- Populated by the script below on desktop -->
+  </div>
+</aside>
+
+<script>
+  // CRITICAL: Must use astro:page-load, NOT bare module execution.
+  // <ClientRouter /> is active in BaseLayout — bare scripts only run on the
+  // initial hard load. astro:page-load fires on both hard load AND after every
+  // View Transition completes, so the DOM manipulation re-runs on each navigation.
+  // <main> is fully replaced on each transition, so #footnote-margin is always
+  // fresh — no cleanup of previous items is needed.
+  document.addEventListener("astro:page-load", () => {
+    // Only run on desktop — mobile shows footnotes inline in the content column
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+    if (!isDesktop) return;
+
+    const footnoteSection = document.querySelector("section[data-footnotes]");
+    const marginContainer = document.getElementById("footnote-margin");
+
+    // No footnotes on this page (e.g. building-lincie.md) — exit cleanly
+    if (!footnoteSection || !marginContainer) return;
+
+    // Move (not clone) footnote <li> items to avoid duplicate IDs.
+    // Moving preserves the original href/id values so bidirectional
+    // anchor navigation continues to work after the DOM move.
+    const items = Array.from(footnoteSection.querySelectorAll("li"));
+    items.forEach((li) => marginContainer.appendChild(li));
+
+    // Hide the now-empty section on desktop via CSS class
+    footnoteSection.classList.add("footnotes-moved");
+  });
+</script>
