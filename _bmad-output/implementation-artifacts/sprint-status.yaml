@@ -55,13 +55,13 @@ development_status:
   epic-1-retrospective: done
 
   # Epic 2: Content & Long-Form Reading — Project and Essay Pages
-  epic-2: in-progress
+  epic-2: done
   2-1-project-page-template-with-drop-cap-and-spine-structure: done
   2-2-essay-page-template-with-italic-closing-line: done
   2-3-footnote-rendering-and-bidirectional-navigation: done
   2-4-inlinelink-component-base-styling-and-external-annotations: done
   2-5-project-index-bands-structure-and-static-layout: done
-  epic-2-retrospective: optional
+  epic-2-retrospective: done
 
   # Epic 3: Signature Motion — Reveal, Cursor, Transitions & Hover Language
   epic-3: backlog
