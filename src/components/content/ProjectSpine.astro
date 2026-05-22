@@ -1,0 +1,29 @@
+---
+// src/components/content/ProjectSpine.astro
+// Decorative vertical hairline with tick marks at each <h2> heading.
+// Purely decorative — aria-hidden="true" on the outer container.
+// Inline style on tick marks is a justified exception: Tailwind cannot
+// express dynamic percentage values computed at render time.
+
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { headings } = Astro.props;
+const h2Headings = headings.filter((h) => h.depth === 2);
+---
+
+<div aria-hidden="true" class="relative h-full w-px">
+  <!-- Vertical hairline -->
+  <div class="bg-hairline absolute inset-y-0 left-0 w-px"></div>
+
+  <!-- Tick marks at each h2 — evenly distributed -->
+  {
+    h2Headings.map((_, i) => (
+      <div
+        class="bg-hairline absolute left-0 h-px w-2"
+        style={`top: ${((i + 1) / (h2Headings.length + 1)) * 100}%`}
+      />
+    ))
+  }
+</div>

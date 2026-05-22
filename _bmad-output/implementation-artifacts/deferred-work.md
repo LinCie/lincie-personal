@@ -34,3 +34,10 @@
 - Missing `og:url` tag — requires per-page canonical URL resolution, explicitly excluded from scope in Dev Notes. Revisit when canonical URL strategy is defined.
 - `og:type` hardcoded to `"website"` for all pages — article/blog pages (Epic 2) will need `"article"` type. Revisit when essay/project page templates are built.
 - `robots.txt` missing `Sitemap:` directive — no sitemap at MVP. Add when `@astrojs/sitemap` is introduced.
+
+## Deferred from: code review of 2-1-project-page-template-with-drop-cap-and-spine-structure (2026-05-22)
+
+- Spine tick positions are index-distributed, not heading-position-matched — even distribution is correct for this story per dev notes; Story 5.3 replaces with scroll-driven positions.
+- `--baseline: 28px` is absolute — drop cap doesn't scale with user font-size preference. Pre-existing token architecture decision; not actionable in this story.
+- Drop cap fires on first-letters that are punctuation, numbers, or whitespace — content authoring concern; acceptable for now. Can be addressed with a content convention or CSS workaround in a future story.
+- `1fr` third column (margin/footnote column) has no max-width — intentional per architecture; Story 2.3 will define column content and may constrain it.

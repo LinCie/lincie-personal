@@ -1,0 +1,78 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Colophon from "../../components/content/Colophon.astro";
+import DropCap from "../../components/typography/DropCap.astro";
+import ProjectSpine from "../../components/content/ProjectSpine.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects", ({ data }) => !data.draft);
+  return projects.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const gridClass =
+  "mx-auto px-7 md:grid md:grid-cols-[40px_minmax(0,65ch)_1fr] md:gap-x-7";
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  sectionLabel="WORK"
+>
+  <!-- Desktop: spine | content | margin — Mobile: single column -->
+  <div class={`pt-28 ${gridClass}`}>
+    <!-- Spine: desktop only, decorative -->
+    <div class="hidden md:block">
+      <ProjectSpine headings={headings} />
+    </div>
+
+    <!-- Content column -->
+    <article class="min-w-0">
+      <h1
+        transition:name={`project-title-${entry.id}`}
+        class="text-ink mb-14 font-serif text-4xl leading-tight font-light"
+      >
+        {entry.data.title}
+      </h1>
+
+      <!-- Disciplines meta -->
+      <p
+        class="text-meta mb-14 font-mono text-[0.75rem] tracking-widest uppercase"
+      >
+        {entry.data.date.slice(0, 4)}{
+          entry.data.disciplines.length > 0 &&
+            ` — ${entry.data.disciplines.join(", ")}`
+        }
+      </p>
+
+      <!-- Prose body — DropCap wraps Content so .drop-cap p:first-child::first-letter applies -->
+      <!-- Do NOT use class="prose" — @tailwindcss/typography is not installed -->
+      <DropCap>
+        <div
+          class="text-ink font-serif leading-[1.555] [&_h2]:mt-14 [&_h2]:mb-7 [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-normal [&_p]:mb-7"
+        >
+          <Content />
+        </div>
+      </DropCap>
+    </article>
+
+    <!-- Margin column: reserved for footnotes (Story 2.3) — aria-hidden until populated -->
+    <aside class="hidden md:block" aria-hidden="true">
+      <!-- Populated by Story 2.3 (FootnoteReveal) -->
+    </aside>
+  </div>
+
+  <div class={gridClass}>
+    <!-- Empty spine column spacer -->
+    <div class="hidden md:block"></div>
+    <!-- Colophon in content column -->
+    <div>
+      <Colophon />
+    </div>
+  </div>
+</BaseLayout>

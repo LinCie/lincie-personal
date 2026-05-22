@@ -1,0 +1,11 @@
+---
+// src/components/typography/DropCap.astro
+// Pure CSS wrapper. The drop cap effect is entirely in typography.css.
+// Renders <div class="drop-cap"> so the CSS rule
+// .drop-cap p:first-child::first-letter can target the first <p>
+// rendered by <Content /> at any nesting depth.
+---
+
+<div class="drop-cap">
+  <slot />
+</div>

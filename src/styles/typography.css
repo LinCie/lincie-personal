@@ -40,6 +40,33 @@ h4 {
 }
 
 /* ============================================================
+   DROP CAP
+   3-line opening capital for project and essay pages.
+   Uses ::first-letter float technique — NOT initial-letter.
+   Cap-height = var(--drop-cap-lines) × var(--baseline) = 3 × 28px = 84px.
+
+   SELECTOR: .drop-cap p:first-child::first-letter
+   NOT .drop-cap::first-letter — ::first-letter on a <div> does not
+   pierce into child <p> elements. The selector must target the <p> directly.
+   The descendant combinator (space, not >) is used because <Content /> may
+   render the <p> as a grandchild of .drop-cap (wrapped in a styling div).
+   ============================================================ */
+.drop-cap p:first-child::first-letter {
+  float: left;
+  font-size: calc(var(--drop-cap-lines) * var(--baseline)); /* 84px */
+  line-height: 1;
+  font-weight: 600;
+  font-optical-sizing: auto;
+  padding-right: 0.1em;
+  margin-top: 0.05em;
+}
+
+/* Contain the float so short first paragraphs don't bleed into subsequent content. */
+.drop-cap p:first-child {
+  overflow: hidden;
+}
+
+/* ============================================================
    TABULAR NUMERALS
    Commit Mono carries tabular figures inherently (monospace).
    This rule is a forward-declaration for folio (BR corner) and

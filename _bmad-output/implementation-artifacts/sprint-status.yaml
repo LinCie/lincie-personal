@@ -55,8 +55,8 @@ development_status:
   epic-1-retrospective: done
 
   # Epic 2: Content & Long-Form Reading — Project and Essay Pages
-  epic-2: backlog
-  2-1-project-page-template-with-drop-cap-and-spine-structure: backlog
+  epic-2: in-progress
+  2-1-project-page-template-with-drop-cap-and-spine-structure: done
   2-2-essay-page-template-with-italic-closing-line: backlog
   2-3-footnote-rendering-and-bidirectional-navigation: backlog
   2-4-inlinelink-component-base-styling-and-external-annotations: backlog
