@@ -41,3 +41,9 @@
 - `--baseline: 28px` is absolute — drop cap doesn't scale with user font-size preference. Pre-existing token architecture decision; not actionable in this story.
 - Drop cap fires on first-letters that are punctuation, numbers, or whitespace — content authoring concern; acceptable for now. Can be addressed with a content convention or CSS workaround in a future story.
 - `1fr` third column (margin/footnote column) has no max-width — intentional per architecture; Story 2.3 will define column content and may constrain it.
+
+## Deferred from: code review of 2-2-essay-page-template-with-italic-closing-line (2026-05-22)
+
+- `[&_p]:mb-7` on the prose wrapper applies to every `<p>` inside the div, including paragraphs inside the `<section data-footnotes>` block rendered by remark for `[^1]` syntax. Footnote list items get 28px bottom margin. Pre-existing pattern (same as project page); Story 2.3 owns all footnote styling and will address this.
+- Drop cap silently absent if an essay's first rendered element is not a `<p>` (e.g. starts with `<h2>`, blockquote, or list). Content authoring constraint; same pre-existing limitation as project page. Document as a content convention or address with a CSS workaround in a future story.
+- `aria-hidden="true"` is hardcoded on the margin `<aside>`. Story 2.3 must remove this attribute when it injects footnote content into the aside, or screen readers will not announce the footnotes. Add a TODO comment in Story 2.3's task list.
