@@ -8,9 +8,23 @@ interface Props {
   title: string;
   sectionLabel?: string;
   description?: string;
+  ogImage?: string;
 }
 
-const { title, sectionLabel, description } = Astro.props;
+const {
+  title,
+  sectionLabel,
+  description,
+  ogImage = "/og-image.png",
+} = Astro.props;
+
+// Construct absolute OG image URL.
+// Astro.site is undefined in dev if not set in astro.config.mjs.
+// Use a safe fallback so the tag is always present and valid.
+// Coerce empty string to default — new URL("", base) resolves to base itself.
+const resolvedOgImage = ogImage || "/og-image.png";
+const ogImageUrl = new URL(resolvedOgImage, Astro.site ?? "https://lincie.me")
+  .href;
 ---
 
 <html lang="en">
@@ -22,6 +36,22 @@ const { title, sectionLabel, description } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
+
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={ogImageUrl} />
+    {description && <meta name="twitter:image:alt" content={description} />}
+
     <Font cssVariable="--font-newsreader" preload={[{ style: "normal" }]} />
     <Font cssVariable="--font-commit-mono" />
     <ClientRouter />

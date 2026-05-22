@@ -26,3 +26,11 @@
 - Recovery links in `404.astro` point to `/projects/building-lincie` and `/writing/craft-as-proof` — routes that don't exist yet. These are the correct MVP targets per spec (FR-14); the pages are created in Epic 2. Until then, both links will 404. No change needed; revisit when Epic 2 stories are complete.
 - HTTP 404 status code in static output mode: Astro generates `dist/404.html`; whether the server responds with HTTP 404 depends on the hosting platform. Vercel handles this automatically by convention. Confirm before launch; add a `vercel.json` routes entry if needed.
 - `border-hairline` Tailwind token in `Colophon.astro` requires `@theme inline` in `global.css`. If `inline` is ever removed during a refactor, the border silently disappears. Pre-existing; not introduced by this story.
+
+## Deferred from: code review of 1-7-seo-meta-and-build-validation (2026-05-22)
+
+- `Astro.site` not set in `astro.config.mjs` — the hardcoded fallback `"https://lincie.me"` is always active (not just in dev). Story Dev Notes acknowledge this as acceptable at MVP. Consider adding `site: "https://lincie.me"` to `astro.config.mjs` for correctness.
+- Non-HTTPS or `data:` absolute `ogImage` values bypass base URL resolution — `new URL()` ignores the base for absolute inputs. No current caller passes non-HTTPS values; future-caller concern when per-page OG images are introduced in v1.1.
+- Missing `og:url` tag — requires per-page canonical URL resolution, explicitly excluded from scope in Dev Notes. Revisit when canonical URL strategy is defined.
+- `og:type` hardcoded to `"website"` for all pages — article/blog pages (Epic 2) will need `"article"` type. Revisit when essay/project page templates are built.
+- `robots.txt` missing `Sitemap:` directive — no sitemap at MVP. Add when `@astrojs/sitemap` is introduced.
