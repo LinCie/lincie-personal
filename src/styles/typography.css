@@ -1,0 +1,72 @@
+/* ============================================================
+   BASE TYPOGRAPHY
+   112.5% root size = 18px at browser default (16px × 1.125).
+   Scales with user font-size preference for accessibility.
+   18px × 1.555 = 28px = --baseline grid unit.
+   font-optical-sizing: auto activates the opsz axis on Newsreader
+   automatically at every rendered font-size.
+   -webkit-font-smoothing: antialiased improves rendering on macOS/iOS.
+   ============================================================ */
+html {
+  font-size: 112.5%; /* 18px when browser default is 16px; scales with user preference */
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   BODY
+   font-serif resolves to Newsreader via the @theme token from Story 1.1.
+   line-height 1.555 = 28px = --baseline grid unit.
+   hanging-punctuation: progressive enhancement (Safari only as of 2026).
+   Degrades cleanly to mechanical alignment in Chrome/Firefox.
+   ============================================================ */
+body {
+  font-family: var(--font-serif);
+  line-height: 1.555;
+  hanging-punctuation: first;
+}
+
+/* ============================================================
+   HEADLINES
+   Same family as body — Newsreader's opsz axis carries the
+   display hierarchy automatically via font-optical-sizing: auto.
+   No separate display-cut needed.
+   ============================================================ */
+h1,
+h2,
+h3,
+h4 {
+  hanging-punctuation: first;
+}
+
+/* ============================================================
+   TABULAR NUMERALS
+   Commit Mono carries tabular figures inherently (monospace).
+   This rule is a forward-declaration for folio (BR corner) and
+   local time (TR corner) — both render in font-mono.
+   Actual usage lands in Stories 1.4 and 5.2.
+   ============================================================ */
+.font-mono {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   METRIC-MATCHED FALLBACK (optional — only add if needed)
+   Astro's auto-generated fallback (from the fallbacks array in
+   astro.config.mjs) handles CLS prevention automatically.
+   Only add this manual @font-face if DevTools shows CLS > 0
+   after verifying the auto-generated fallback.
+   Values below are starting estimates — tune against actual
+   Newsreader metrics using DevTools or:
+   https://deploy-preview-15--upbeat-shirley-608546.netlify.app/
+   ============================================================ */
+/*
+@font-face {
+  font-family: 'Newsreader Fallback';
+  src: local('Georgia'), local('Georgia Regular');
+  size-adjust: 98%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+*/

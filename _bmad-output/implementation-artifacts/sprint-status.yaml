@@ -45,7 +45,7 @@ development_status:
   # Epic 1: Foundation — A Readable, On-Brand Static Site
   epic-1: in-progress
   1-1-css-token-layer-and-tailwind-theme-integration: done
-  1-2-typography-pipeline-fonts-fallback-and-optical-sizing: backlog
+  1-2-typography-pipeline-fonts-fallback-and-optical-sizing: done
   1-3-content-collections-projects-and-writing-schemas: backlog
   1-4-baselayout-with-frame-and-accessibility-scaffold: backlog
   1-5-home-page-honest-first-paint-and-content-count-logic: backlog
