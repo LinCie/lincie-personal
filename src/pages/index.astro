@@ -75,28 +75,15 @@ const essays = allEssays.sort(
             </p>
           )}
           {projects.length >= 3 && (
-            <>
-              <ul class="text-ink font-serif leading-[1.555]">
-                {projects.map((p) => (
-                  <li>
-                    <a
-                      href={`/projects/${p.id}`}
-                      class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
-                    >
-                      {p.data.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-              <p class="text-ink mt-7 font-serif leading-[1.555]">
-                <a
-                  href="/projects"
-                  class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
-                >
-                  All work →
-                </a>
-              </p>
-            </>
+            <p class="text-ink font-serif leading-[1.555]">
+              Work:{" "}
+              <a
+                href="/projects"
+                class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
+              >
+                {projects.length} projects →
+              </a>
+            </p>
           )}
         </section>
       )

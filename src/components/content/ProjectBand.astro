@@ -1,0 +1,44 @@
+---
+// src/components/content/ProjectBand.astro
+// Exhibition-style project band. Static structure only.
+// Hero image reveal added in Story 5.4. Hover animation added in Story 3.5.
+
+interface Props {
+  title: string;
+  slug: string;
+  date: string;
+  disciplines: string[];
+  // heroImage reserved for Story 5.4 — intentionally omitted from destructuring in this story
+  heroImage?: string;
+}
+
+const { title, slug, date, disciplines } = Astro.props;
+
+const metaLine = `${date.slice(0, 4)}${disciplines.length > 0 ? ` — ${disciplines.join(", ")}` : ""}`;
+---
+
+<article class="group">
+  <a
+    href={`/projects/${slug}`}
+    class="block items-start md:grid md:min-h-[30vh] md:grid-cols-[1fr_40%]"
+  >
+    <!-- Left: title + meta.
+         items-start on the grid container prevents this div from stretching
+         to fill the full min-h-[30vh] height when content is short. -->
+    <div class="py-7 md:py-14">
+      <h2
+        transition:name={`project-title-${slug}`}
+        class="text-ink font-serif leading-[1.05] font-normal"
+        style="font-size: clamp(2.5rem, 6.5vw, 4.25rem);"
+      >
+        {title}
+      </h2>
+      <p class="text-meta mt-7 font-mono text-[0.75rem]">
+        {metaLine}
+      </p>
+    </div>
+
+    <!-- Right: hero placeholder (Epic 5 injects image here) -->
+    <div class="hidden md:block" aria-hidden="true"></div>
+  </a>
+</article>

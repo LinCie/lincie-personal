@@ -60,7 +60,7 @@ development_status:
   2-2-essay-page-template-with-italic-closing-line: done
   2-3-footnote-rendering-and-bidirectional-navigation: done
   2-4-inlinelink-component-base-styling-and-external-annotations: done
-  2-5-project-index-bands-structure-and-static-layout: backlog
+  2-5-project-index-bands-structure-and-static-layout: done
   epic-2-retrospective: optional
 
   # Epic 3: Signature Motion — Reveal, Cursor, Transitions & Hover Language

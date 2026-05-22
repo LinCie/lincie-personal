@@ -57,3 +57,10 @@
 ## Deferred from: code review of 2-4-inlinelink-component-base-styling-and-external-annotations (2026-05-22)
 
 - `font-weight` hover on `span.name`/`cite` causes horizontal layout shift — heavier weight is wider, causing surrounding text to reflow on hover. Pre-existing design decision (architecture mandates `font-weight` for the `wght` axis); Story 3.5 adds transitions which will smooth the shift on variable fonts. Acceptable as interim state.
+
+## Deferred from: code review of 2-5-project-index-bands-structure-and-static-layout (2026-05-22)
+
+- `date.slice(0, 4)` on unvalidated string in `ProjectBand.astro` — schema enforces `z.string()` only; a malformed date would silently truncate the year display. Pre-existing pattern, same issue in `[...slug].astro`. Fix: tighten schema to `z.string().regex(/^\d{4}/)` or validate at render time.
+- Empty projects array — `/projects` index renders blank content area with no visitor feedback. Acceptable for now since home page prevents linking to `/projects` when `projects.length < 3`. Fix: add an empty-state message or redirect when `projects.length === 0`.
+- `entry.id` as slug may contain path separators if nested content files are added — would produce 404 and invalid `transition:name`. Pre-existing pattern in `index.astro` and `[...slug].astro`. Fix: sanitize `entry.id` or enforce flat content directory structure in schema/docs.
+- `order` NaN risk if schema relaxes `order` to optional — `a.data.order - b.data.order` with NaN produces non-deterministic sort. Pre-existing sort pattern. Fix: add `.default(999)` to `order` schema or guard with `?? 999` in sort comparator.

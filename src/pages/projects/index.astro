@@ -1,0 +1,38 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Colophon from "../../components/content/Colophon.astro";
+import ProjectBand from "../../components/content/ProjectBand.astro";
+
+const allProjects = await getCollection("projects", ({ data }) => !data.draft);
+const projects = allProjects.sort(
+  (a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id),
+);
+---
+
+<BaseLayout
+  title="Work — LinCie"
+  description="Projects by LinCie — engineering, research, and design."
+  sectionLabel="WORK"
+>
+  <div class="mx-auto max-w-[65ch] px-7 pt-28 md:max-w-none md:px-14">
+    <h1 class="sr-only">Work</h1>
+
+    <div class="space-y-21 md:space-y-[168px]">
+      {
+        projects.map((entry) => (
+          <ProjectBand
+            title={entry.data.title}
+            slug={entry.id}
+            date={entry.data.date}
+            disciplines={entry.data.disciplines}
+          />
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-[65ch] px-7 md:max-w-none md:px-14">
+    <Colophon />
+  </div>
+</BaseLayout>
