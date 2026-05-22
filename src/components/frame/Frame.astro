@@ -1,0 +1,44 @@
+---
+// src/components/frame/Frame.astro
+
+interface Props {
+  sectionLabel?: string;
+}
+
+const { sectionLabel = "" } = Astro.props;
+---
+
+<!-- TL: INDEX link — the only interactive corner, inside <nav> -->
+<nav class="fixed top-7 left-7 z-50" aria-label="Site navigation">
+  <a
+    href="/"
+    class="text-meta hover:text-ink focus-visible:outline-ink p-4 font-mono text-[0.75rem] leading-none tracking-widest uppercase no-underline transition-colors duration-(--dur-quick) focus-visible:outline-2 focus-visible:outline-offset-2"
+  >
+    INDEX
+  </a>
+</nav>
+
+<!-- TR: Local time placeholder — hidden on mobile, aria-hidden (decorative) -->
+<span
+  aria-hidden="true"
+  data-frame="local-time"
+  class="text-meta fixed top-7 right-7 z-50 hidden font-mono text-[0.75rem] leading-none tracking-widest uppercase md:block"
+>
+  00:00 LOCAL
+</span>
+
+<!-- BL: Section label — hidden on mobile, aria-hidden (decorative) -->
+<span
+  aria-hidden="true"
+  class="text-meta fixed bottom-7 left-7 z-50 hidden font-mono text-[0.75rem] leading-none tracking-widest uppercase md:block"
+>
+  {sectionLabel}
+</span>
+
+<!-- BR: Folio — always visible, aria-hidden (decorative) -->
+<span
+  aria-hidden="true"
+  class="text-meta fixed right-7 bottom-7 z-50 font-mono text-[0.75rem] leading-none tracking-widest uppercase"
+>
+  001 / 001
+</span>

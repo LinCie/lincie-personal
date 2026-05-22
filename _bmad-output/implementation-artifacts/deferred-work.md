@@ -12,3 +12,11 @@
 - `title`/`description` accept empty strings. `z.string().min(1)` would prevent blank meta fields. Low risk until page templates are built.
 - `glob("**/*.md")` ingests stray files (README.md, _draft.md, etc.). Consider an ignore pattern or naming convention enforcement when the content directory grows.
 - No `slug` override field in schema. File renames silently break URLs. Consider adding `slug: z.string().optional()` when permalink stability becomes a concern.
+
+## Deferred from: code review of 1-4-baselayout-with-frame-and-accessibility-scaffold (2026-05-22)
+
+- `001 / 001` folio is hardcoded in Frame.astro BR corner. Story 5.3 (scroll-driven folio) will replace this with a dynamic value.
+- `aria-current` on the INDEX link never updates on View Transition navigation because `transition:persist` keeps the Frame alive. Story 3.4 handles post-swap updates via the `astro:after-swap` event.
+- BL and BR spans have no `max-w` or `truncate` guard. A long `sectionLabel` at the md breakpoint (768px) could cause the two bottom corners to collide. Current sectionLabel values (`WORK`, `WRITING`, `404 — NOT FOUND`) are short enough to be safe. Revisit when Story 2.x or 3.4 introduces dynamic labels.
+- No `env(safe-area-inset-*)` padding on any corner position. Notched iOS devices (iPhone X+) may clip the INDEX nav link and corner labels behind the device chrome. Not in story scope; address in a polish pass.
+- XSS risk if `sectionLabel` is ever rendered via `set:html` instead of `{sectionLabel}`. Astro auto-escapes template expressions, so this is safe as written. Do not change to `set:html` without sanitization.

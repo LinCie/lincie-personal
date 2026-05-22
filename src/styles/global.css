@@ -73,3 +73,40 @@
     transition-delay: 0ms !important;
   }
 }
+
+/* ============================================================
+   SKIP TO CONTENT
+   Visually hidden until focused. Jumps keyboard users past the
+   Frame to the main content area. Required for WCAG 2.2 AA.
+   Custom CSS is necessary here: the top: -100% → top: var(--baseline)
+   transition on :focus-visible cannot be expressed with Tailwind's
+   focus-visible: prefix on the same property being transitioned.
+   ============================================================ */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: var(--baseline);
+  z-index: 100;
+  padding: calc(var(--baseline) / 2) var(--baseline);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-decoration: none;
+  transition: top var(--dur-quick) var(--ease-settle);
+}
+
+.skip-to-content:focus-visible {
+  top: var(--baseline);
+}
+
+/* ============================================================
+   FOCUS-VISIBLE OUTLINE
+   2px paper-cream offset outline on all interactive elements.
+   Matches hover affordance for keyboard parity (UX-DR14).
+   Uses :focus-visible (not :focus) to avoid outline on mouse click.
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
