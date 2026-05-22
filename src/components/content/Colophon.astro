@@ -1,0 +1,45 @@
+---
+// src/components/content/Colophon.astro
+// Book-style site footer — metadata register, not body text.
+// No props — all content is static or build-time computed.
+
+const year = new Date().getFullYear();
+---
+
+<footer
+  class="border-hairline text-meta mt-28 border-t pt-7 pb-14 font-mono text-[0.75rem] leading-relaxed"
+  aria-label="Site colophon"
+>
+  <p>Set in Newsreader and Commit Mono, both SIL OFL 1.1.</p>
+  <p>© {year} LinCie.</p>
+  <p>
+    <a
+      href="mailto:contact@lincie.me"
+      class="hover:text-ink transition-colors duration-(--dur-quick)"
+    >
+      → contact@lincie.me
+    </a>
+  </p>
+  <p class="mt-3">
+    <a
+      href="https://github.com/lincie"
+      rel="noopener noreferrer"
+      class="hover:text-ink transition-colors duration-(--dur-quick)"
+      ><span aria-hidden="true">↗ </span>github</a
+    >
+    {" "}
+    <a
+      href="https://twitter.com/lincie"
+      rel="noopener noreferrer"
+      class="hover:text-ink transition-colors duration-(--dur-quick)"
+      ><span aria-hidden="true">↗ </span>twitter</a
+    >
+    {" "}
+    <a
+      href="https://are.na/lincie"
+      rel="noopener noreferrer"
+      class="hover:text-ink transition-colors duration-(--dur-quick)"
+      ><span aria-hidden="true">↗ </span>are.na</a
+    >
+  </p>
+</footer>

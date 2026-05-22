@@ -7,9 +7,10 @@ import Frame from "../components/frame/Frame.astro";
 interface Props {
   title: string;
   sectionLabel?: string;
+  description?: string;
 }
 
-const { title, sectionLabel } = Astro.props;
+const { title, sectionLabel, description } = Astro.props;
 ---
 
 <html lang="en">
@@ -20,6 +21,7 @@ const { title, sectionLabel } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    {description && <meta name="description" content={description} />}
     <Font cssVariable="--font-newsreader" preload={[{ style: "normal" }]} />
     <Font cssVariable="--font-commit-mono" />
     <ClientRouter />

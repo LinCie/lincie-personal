@@ -1,7 +1,172 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Colophon from "../components/content/Colophon.astro";
+
+// Fetch and sort non-draft projects
+const allProjects = await getCollection("projects", ({ data }) => !data.draft);
+const projects = allProjects.sort(
+  (a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id),
+);
+
+// Fetch and sort non-draft essays
+const allEssays = await getCollection("writing", ({ data }) => !data.draft);
+const essays = allEssays.sort(
+  (a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id),
+);
 ---
 
-<BaseLayout title="LinCie">
-  <h1>LinCie</h1>
+<BaseLayout
+  title="LinCie"
+  description="LinCie is a thinker who builds — engineering, research, and design as one voice."
+>
+  <div class="mx-auto max-w-[65ch] px-7 pt-28">
+    <!-- Visually-hidden h1 for screen readers and document outline (WCAG 2.4.6, 1.3.1) -->
+    <h1 class="sr-only">LinCie</h1>
+
+    <!-- Honest first-paint paragraph -->
+    <p class="text-ink font-serif leading-[1.555]">
+      LinCie builds at the intersection of engineering, research, and design —
+      treating them as the same discipline expressed through different
+      materials.{" "}
+      <span class="inline-flex min-h-[44px] min-w-[44px] items-center">
+        <a
+          href="mailto:contact@lincie.me"
+          class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick) focus-visible:outline-2 focus-visible:outline-offset-2"
+        >
+          Reach out.
+        </a>
+      </span>
+    </p>
+
+    <!-- Projects section -->
+    {
+      projects.length > 0 && (
+        <section class="mt-14" aria-label="Work">
+          {projects.length === 1 && (
+            <p class="text-ink font-serif leading-[1.555]">
+              Recent work:{" "}
+              <a
+                href={`/projects/${projects[0].id}`}
+                class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
+              >
+                {projects[0].data.title}
+              </a>
+              .
+            </p>
+          )}
+          {projects.length === 2 && (
+            <p class="text-ink font-serif leading-[1.555]">
+              Recent work:{" "}
+              <a
+                href={`/projects/${projects[0].id}`}
+                class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
+              >
+                {projects[0].data.title}
+              </a>{" "}
+              and{" "}
+              <a
+                href={`/projects/${projects[1].id}`}
+                class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
+              >
+                {projects[1].data.title}
+              </a>
+              .
+            </p>
+          )}
+          {projects.length >= 3 && (
+            <>
+              <ul class="text-ink font-serif leading-[1.555]">
+                {projects.map((p) => (
+                  <li>
+                    <a
+                      href={`/projects/${p.id}`}
+                      class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
+                    >
+                      {p.data.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p class="text-ink mt-7 font-serif leading-[1.555]">
+                <a
+                  href="/projects"
+                  class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
+                >
+                  All work →
+                </a>
+              </p>
+            </>
+          )}
+        </section>
+      )
+    }
+
+    <!-- Essays section -->
+    {
+      essays.length > 0 && (
+        <section class="mt-14" aria-label="Writing">
+          {essays.length === 1 && (
+            <p class="text-ink font-serif leading-[1.555]">
+              Recent writing:{" "}
+              <a
+                href={`/writing/${essays[0].id}`}
+                class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
+              >
+                {essays[0].data.title}
+              </a>
+              .
+            </p>
+          )}
+          {essays.length === 2 && (
+            <p class="text-ink font-serif leading-[1.555]">
+              Recent writing:{" "}
+              <a
+                href={`/writing/${essays[0].id}`}
+                class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
+              >
+                {essays[0].data.title}
+              </a>{" "}
+              and{" "}
+              <a
+                href={`/writing/${essays[1].id}`}
+                class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
+              >
+                {essays[1].data.title}
+              </a>
+              .
+            </p>
+          )}
+          {essays.length >= 3 && (
+            <>
+              <ul class="text-ink font-serif leading-[1.555]">
+                {essays.map((e) => (
+                  <li>
+                    <a
+                      href={`/writing/${e.id}`}
+                      class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
+                    >
+                      {e.data.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <p class="text-ink mt-7 font-serif leading-[1.555]">
+                <a
+                  href="/writing"
+                  class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
+                >
+                  All writing →
+                </a>
+              </p>
+            </>
+          )}
+        </section>
+      )
+    }
+  </div>
+
+  <div class="mx-auto max-w-[65ch] px-7">
+    <Colophon />
+  </div>
 </BaseLayout>

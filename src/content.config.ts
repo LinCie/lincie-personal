@@ -9,7 +9,7 @@ const projects = defineCollection({
     description: z.string(),
     date: z.string(), // YYYY-MM-DD — kept as string per architecture spec
     disciplines: z.array(z.string()),
-    draft: z.boolean(),
+    draft: z.boolean().default(false),
     order: z.number(),
   }),
 });
@@ -21,7 +21,7 @@ const writing = defineCollection({
     subtitle: z.string().optional(),
     description: z.string(),
     date: z.string(), // YYYY-MM-DD
-    draft: z.boolean(),
+    draft: z.boolean().default(false),
     order: z.number(),
   }),
 });
