@@ -1,0 +1,140 @@
+---
+// src/components/typography/InlineLink.astro
+// Inline link with inkstroke underline (base) and external domain annotation.
+// Animation timing (transitions) added in Story 3.5.
+// Usage:
+//   <InlineLink href="/projects/foo">Project</InlineLink>
+//   <InlineLink href="https://example.com">External</InlineLink>
+
+interface Props {
+  href: string;
+  external?: boolean;
+  class?: string;
+}
+
+const { href, external = false, class: className } = Astro.props;
+
+// Sanitize javascript: URIs — never render them as href values.
+// Static site context does not eliminate the risk if href ever comes from
+// MDX frontmatter or a CMS field.
+const safeHref = href.toLowerCase().startsWith("javascript:") ? "#" : href;
+
+// Derive external status from href or explicit prop.
+// Only treat as external when the href is actually absolute — guards against
+// external={true} being passed with a relative path, which would silently
+// apply target="_blank" to an internal link.
+const isAbsolute =
+  safeHref.startsWith("http://") || safeHref.startsWith("https://");
+const isExternal = isAbsolute && (external || isAbsolute);
+
+// Extract domain for annotation (external only).
+let domain = "";
+if (isExternal) {
+  try {
+    domain = new URL(safeHref).hostname.replace(/^www\./, "");
+  } catch {
+    domain = "";
+  }
+}
+---
+
+<a
+  href={safeHref}
+  class:list={["inline-link", className]}
+  {...isExternal ? { rel: "noopener noreferrer", target: "_blank" } : {}}
+>
+  <slot />
+  {
+    isExternal && (
+      <span class="inline-link-annotation" aria-hidden="true">
+        {domain ? `↗ ${domain}` : "↗"}
+      </span>
+    )
+  }
+  {
+    isExternal && (
+      <span class="sr-only">
+        {domain ? `(opens ${domain} in new tab)` : "(opens in new tab)"}
+      </span>
+    )
+  }
+</a>
+
+<style>
+  /* ============================================================
+     INLINE LINK — BASE STYLES
+     No underline at rest. Inkstroke underline via ::after scaleX.
+     display: inline-block is required so that padding-block expands
+     the layout box (achieving the 44px tap target) and so that
+     bottom: 0 on ::after correctly positions the underline at the
+     visual text baseline rather than the line-height box edge.
+     Transition timing added in Story 3.5.
+     ============================================================ */
+  .inline-link {
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    /* Minimum 44×44px tap target on mobile via padding.
+       Use rem to avoid scaling with parent font-size.
+       inline-block is required for padding-block to expand the layout box. */
+    padding-block: 0.75rem;
+  }
+
+  /* Inkstroke underline pseudo-element.
+     bottom: 0 sits at the bottom edge of the padding box (below the text).
+     With display: inline-block, the containing block height includes
+     padding-block, so bottom: 0 is the correct baseline position. */
+  .inline-link::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    /* transition added in Story 3.5 */
+  }
+
+  .inline-link:hover::after,
+  .inline-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* External annotation — hidden at rest, visible on hover/focus.
+     font-size in rem (not em) to prevent compounding in small-font
+     contexts such as footnotes or captions. */
+  .inline-link-annotation {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--meta);
+    margin-left: 0.25em;
+    opacity: 0;
+    /* transition added in Story 3.5 */
+  }
+
+  .inline-link:hover .inline-link-annotation,
+  .inline-link:focus-visible .inline-link-annotation {
+    opacity: 1;
+  }
+
+  /* ============================================================
+     FORCED COLORS (Windows High Contrast)
+     background-color on ::after is overridden to transparent in
+     forced-colors mode, and text-decoration: none removes the UA
+     underline — the link becomes visually indistinguishable from
+     plain text. Restore the UA underline and suppress the
+     pseudo-element so the system color scheme takes over.
+     ============================================================ */
+  @media (forced-colors: active) {
+    .inline-link {
+      text-decoration: underline;
+    }
+
+    .inline-link::after {
+      display: none;
+    }
+  }
+</style>

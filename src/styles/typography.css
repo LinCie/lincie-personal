@@ -201,6 +201,27 @@ section[data-footnotes] li::before {
 }
 
 /* ============================================================
+   NAME ELEMENTS & CITE — HOVER WEIGHT SHIFT
+   Authors write <span class="name"> or <cite> in Markdown for
+   proper nouns and cited works. Weight shifts 400 → 500 on hover
+   as the interaction affordance (no underline — weight is the cue).
+   Scoped to .drop-cap (the prose wrapper) to avoid affecting <cite>
+   elements in footnotes, the colophon, or other non-prose contexts.
+   Transition timing added in Story 3.5.
+   Uses font-weight (registered axis high-level property), NOT
+   font-variation-settings: 'wght' — architecture anti-pattern.
+   ============================================================ */
+.drop-cap span.name,
+.drop-cap cite {
+  font-weight: 400;
+}
+
+.drop-cap span.name:hover,
+.drop-cap cite:hover {
+  font-weight: 500;
+}
+
+/* ============================================================
    METRIC-MATCHED FALLBACK (optional — only add if needed)
    Astro's auto-generated fallback (from the fallbacks array in
    astro.config.mjs) handles CLS prevention automatically.

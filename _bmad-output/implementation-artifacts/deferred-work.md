@@ -53,3 +53,7 @@
 - `opacity: 0` on `#footnote-margin` with no fallback — footnotes are permanently invisible to sighted desktop users until Story 4.4 ships the reverse-scroll reveal. Intentional design decision documented in spec. Story 4.4 owns the reveal animation.
 - Desktop→mobile resize leaves footnotes invisible — the DOM-move approach moves `<li>` items at page-load time. A subsequent resize to mobile leaves the margin column hidden and the original `section[data-footnotes]` empty. Accepted as a known limitation of the DOM-move architecture; page reload restores correct state. Revisit if resize support becomes a requirement.
 - Footnote vertical alignment is approximate — `padding-top: calc(var(--baseline) * 4)` aligns the container, not individual footnotes. Per-footnote positioning (aligning each footnote next to its reference in the body) deferred to Story 4.4 (GSAP ScrollTrigger).
+
+## Deferred from: code review of 2-4-inlinelink-component-base-styling-and-external-annotations (2026-05-22)
+
+- `font-weight` hover on `span.name`/`cite` causes horizontal layout shift — heavier weight is wider, causing surrounding text to reflow on hover. Pre-existing design decision (architecture mandates `font-weight` for the `wght` axis); Story 3.5 adds transitions which will smooth the shift on variable fonts. Acceptable as interim state.
