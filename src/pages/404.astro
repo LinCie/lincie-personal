@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Colophon from "../components/content/Colophon.astro";
+---
+
+<BaseLayout
+  title="404 — Not Found"
+  sectionLabel="404 — NOT FOUND"
+  description="This page seems to have been left out of the index."
+>
+  <div class="mx-auto max-w-[65ch] px-7 pt-28">
+    <!-- sr-only h1 for screen reader document outline (WCAG 2.4.6) — same pattern as index.astro -->
+    <h1 class="sr-only">Page not found</h1>
+
+    <p class="text-ink font-serif leading-[1.555]">
+      This page seems to have been left out of the index. Try the{" "}
+      <a
+        href="/"
+        class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
+      >
+        home page
+      </a>
+      , a look at{" "}
+      <a
+        href="/projects/building-lincie"
+        class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
+      >
+        the work
+      </a>
+      , or{" "}
+      <a
+        href="/writing/craft-as-proof"
+        class="hover:text-meta underline-offset-2 transition-colors duration-(--dur-quick)"
+      >
+        the writing
+      </a>
+      .
+    </p>
+  </div>
+
+  <div class="mx-auto max-w-[65ch] px-7">
+    <Colophon />
+  </div>
+</BaseLayout>

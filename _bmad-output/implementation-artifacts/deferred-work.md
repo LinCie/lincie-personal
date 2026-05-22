@@ -20,3 +20,9 @@
 - BL and BR spans have no `max-w` or `truncate` guard. A long `sectionLabel` at the md breakpoint (768px) could cause the two bottom corners to collide. Current sectionLabel values (`WORK`, `WRITING`, `404 — NOT FOUND`) are short enough to be safe. Revisit when Story 2.x or 3.4 introduces dynamic labels.
 - No `env(safe-area-inset-*)` padding on any corner position. Notched iOS devices (iPhone X+) may clip the INDEX nav link and corner labels behind the device chrome. Not in story scope; address in a polish pass.
 - XSS risk if `sectionLabel` is ever rendered via `set:html` instead of `{sectionLabel}`. Astro auto-escapes template expressions, so this is safe as written. Do not change to `set:html` without sanitization.
+
+## Deferred from: code review of 1-6-colophon-and-404-page (2026-05-22)
+
+- Recovery links in `404.astro` point to `/projects/building-lincie` and `/writing/craft-as-proof` — routes that don't exist yet. These are the correct MVP targets per spec (FR-14); the pages are created in Epic 2. Until then, both links will 404. No change needed; revisit when Epic 2 stories are complete.
+- HTTP 404 status code in static output mode: Astro generates `dist/404.html`; whether the server responds with HTTP 404 depends on the hosting platform. Vercel handles this automatically by convention. Confirm before launch; add a `vercel.json` routes entry if needed.
+- `border-hairline` Tailwind token in `Colophon.astro` requires `@theme inline` in `global.css`. If `inline` is ever removed during a refactor, the border silently disappears. Pre-existing; not introduced by this story.
