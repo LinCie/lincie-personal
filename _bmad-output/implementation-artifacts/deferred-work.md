@@ -94,3 +94,7 @@
 ## Deferred from: code review of 5-2-live-local-time-in-tr-corner (2026-05-23)
 
 - BR folio span (`Frame.astro`) has `data-reveal="corner"` — contradicts spec documentation which states the BR folio should NOT have this attribute (always visible, intentional asymmetry). Means folio starts at opacity 0 and is revealed by reveal.ts rather than being always visible. Pre-existing issue, not introduced by story 5.2. Address when Frame.astro is next touched (likely story 5.3 or 5.4).
+
+## Deferred from: code review of 5-3-scroll-driven-folio-and-project-spine-indicator (2026-05-23)
+
+- Spine dot ScrollTrigger fires on mobile scroll for a CSS-hidden element — `initSpineDot()` finds `[data-spine="dot"]` via `querySelector` even when the parent container is `hidden md:block`. The trigger runs on every mobile scroll tick updating a `display:none` element. Harmless but wasteful. Pre-existing pattern (dot is hidden via CSS, not absent from DOM on mobile). Revisit if mobile scroll performance becomes a concern.

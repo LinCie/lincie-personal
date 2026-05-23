@@ -1,5 +1,5 @@
 // src/scripts/scroll.ts
-// Scroll behaviors — damped scroll, section pin, fog-lifting.
+// Scroll behaviors — damped scroll, section pin, fog-lifting, folio, spine dot.
 // Loaded only on long-form pages (project + essay).
 
 import {
@@ -38,6 +38,12 @@ function cleanup(): void {
     el.style.filter = "";
   });
   foggedElements.length = 0;
+
+  // Reset folio to static fallback so it doesn't show a stale scroll value
+  // on pages that don't load scroll.ts (home, 404, projects index).
+  // Frame is transition:persist — the element survives navigation.
+  const folioEl = document.querySelector<HTMLElement>('[data-frame="folio"]');
+  if (folioEl) folioEl.textContent = "001 / 001";
 }
 
 // ─── Section Pin ──────────────────────────────────────────────────────────────
@@ -74,6 +80,7 @@ function initSectionPin(): void {
 }
 
 // ─── Fog Lifting ──────────────────────────────────────────────────────────────
+
 function initFogLifting(): void {
   // Gate: no blur under reduced motion (FR-20)
   if (REDUCED_MOTION) return;
@@ -114,6 +121,58 @@ function initFogLifting(): void {
   });
 }
 
+// ─── Folio ────────────────────────────────────────────────────────────────────
+function initFolio(): void {
+  const el = document.querySelector<HTMLElement>('[data-frame="folio"]');
+  if (!el) return;
+
+  // Count h2 headings for TTT — on long-form pages use prose body scope,
+  // on other pages count all h2s (home page has none → TTT = 1).
+  const proseBody = document.querySelector("[data-prose-body]");
+  const h2s = proseBody
+    ? proseBody.querySelectorAll("h2")
+    : document.querySelectorAll("h2");
+  const total = Math.max(1, h2s.length);
+  const ttt = String(total).padStart(3, "0");
+
+  // Single-viewport guard: no scroll depth → always 001 / 001 (AC #4)
+  if (document.body.scrollHeight <= window.innerHeight + 1) {
+    el.textContent = `001 / 001`;
+    return;
+  }
+
+  const trigger = ScrollTrigger.create({
+    id: "folio-progress",
+    trigger: document.body,
+    start: "top top",
+    end: "bottom bottom",
+    onUpdate: (self) => {
+      const nnn = Math.max(1, Math.round(self.progress * total));
+      el.textContent = `${String(nnn).padStart(3, "0")} / ${ttt}`;
+    },
+  });
+  instances.push(trigger);
+}
+
+// ─── Spine Dot ────────────────────────────────────────────────────────────────
+function initSpineDot(): void {
+  const dot = document.querySelector<HTMLElement>('[data-spine="dot"]');
+  if (!dot) return; // no spine on this page (essay pages, home, 404) — guard
+
+  // NOTE: Do NOT guard on [data-prose-body] — that attribute exists on BOTH
+  // project AND essay pages. The dot's absence from the DOM is the correct guard.
+
+  const trigger = ScrollTrigger.create({
+    trigger: document.body,
+    start: "top top",
+    end: "bottom bottom",
+    onUpdate: (self) => {
+      dot.style.top = `${self.progress * 100}%`;
+    },
+  });
+  instances.push(trigger);
+}
+
 // ─── Init ─────────────────────────────────────────────────────────────────────
 function init(): void {
   // Damped smooth scroll — gates on COARSE_POINTER || REDUCED_MOTION (FR-23)
@@ -127,6 +186,12 @@ function init(): void {
 
   // Fog-lifting — gates on REDUCED_MOTION (FR-20)
   initFogLifting();
+
+  // Folio scroll tracker — not gated (information, not motion)
+  initFolio();
+
+  // Spine dot position indicator — not gated (information, not motion)
+  initSpineDot();
 
   // Recalculate all trigger positions after all behaviors are registered,
   // deferred until fonts are ready so Newsreader metrics are used for layout

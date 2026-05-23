@@ -1,0 +1,15 @@
+---
+// src/components/frame/Folio.astro
+// BR corner label — scroll-driven folio.
+// Static fallback: "001 / 001". Updated by scroll.ts initFolio().
+---
+
+<!-- BR: Folio — aria-hidden (decorative) -->
+<span
+  aria-hidden="true"
+  data-frame="folio"
+  data-reveal="corner"
+  class="text-meta fixed right-7 bottom-7 z-50 font-mono text-[0.75rem] leading-none tracking-widest uppercase"
+>
+  001 / 001
+</span>

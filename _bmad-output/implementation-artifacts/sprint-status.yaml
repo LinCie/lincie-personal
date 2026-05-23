@@ -1,7 +1,5 @@
 # generated: 2026-05-21
 last_updated: 2026-05-23
-
-# STATUS DEFINITIONS:
 # ==================
 # Epic Status:
 #   - backlog: Epic not yet started
@@ -79,6 +77,6 @@ development_status:
   epic-5: in-progress
   5-1-paper-tone-drift-time-of-day-color-bands: done
   5-2-live-local-time-in-tr-corner: done
-  5-3-scroll-driven-folio-and-project-spine-indicator: backlog
+  5-3-scroll-driven-folio-and-project-spine-indicator: done
   5-4-project-band-hover-hero-reveal: backlog
   epic-5-retrospective: optional

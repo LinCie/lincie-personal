@@ -1,6 +1,7 @@
 ---
 // src/components/frame/Frame.astro
 import LocalTime from "./LocalTime.astro";
+import Folio from "./Folio.astro";
 
 interface Props {
   sectionLabel?: string;
@@ -36,10 +37,4 @@ const { sectionLabel = "" } = Astro.props;
 </span>
 
 <!-- BR: Folio — always visible, aria-hidden (decorative) -->
-<span
-  aria-hidden="true"
-  data-reveal="corner"
-  class="text-meta fixed right-7 bottom-7 z-50 font-mono text-[0.75rem] leading-none tracking-widest uppercase"
->
-  001 / 001
-</span>
+<Folio />
