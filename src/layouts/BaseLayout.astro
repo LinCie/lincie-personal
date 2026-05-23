@@ -4,6 +4,7 @@ import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import Frame from "../components/frame/Frame.astro";
 import RevealSequence from "../components/motion/RevealSequence.astro";
+import CursorAfterGlow from "../components/motion/CursorAfterGlow.astro";
 
 interface Props {
   title: string;
@@ -67,11 +68,15 @@ const ogImageUrl = new URL(resolvedOgImage, Astro.site ?? "https://lincie.me")
     <!-- Reveal sequence: baseline grid overlay (GSAP target, invisible at rest) -->
     <RevealSequence />
 
+    <!-- Cursor afterglow: warm trace following pointer (GSAP target, invisible at rest) -->
+    <CursorAfterGlow />
+
     <!-- Main content: cross-fades on navigation -->
     <main id="main-content" tabindex="-1" transition:animate="fade">
       <slot />
     </main>
   </body><script>
     import "../scripts/reveal.ts";
+    import "../scripts/cursor.ts";
   </script>
 </html>

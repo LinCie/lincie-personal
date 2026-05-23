@@ -1,0 +1,15 @@
+---
+// src/components/motion/CursorAfterGlow.astro
+// Fixed-position glow element targeted by cursor.ts via GSAP.
+// Starts invisible (opacity-0). Script positions and animates it.
+// aria-hidden: purely decorative — screen readers are unaffected.
+// pointer-events-none: permanent — never blocks clicks even when visible.
+---
+
+<div
+  id="cursor-afterglow"
+  aria-hidden="true"
+  class="pointer-events-none fixed top-0 left-0 z-30 h-8 w-8 rounded-full opacity-0"
+  style="background: radial-gradient(circle, oklch(0.5 0.005 80 / 0.18) 0%, transparent 70%);"
+>
+</div>
