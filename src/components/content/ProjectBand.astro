@@ -8,11 +8,10 @@ interface Props {
   slug: string;
   date: string;
   disciplines: string[];
-  // heroImage reserved for Story 5.4 — intentionally omitted from destructuring in this story
   heroImage?: string;
 }
 
-const { title, slug, date, disciplines } = Astro.props;
+const { title, slug, date, disciplines, heroImage } = Astro.props;
 
 const metaLine = `${date.slice(0, 4)}${disciplines.length > 0 ? ` — ${disciplines.join(", ")}` : ""}`;
 ---
@@ -38,8 +37,19 @@ const metaLine = `${date.slice(0, 4)}${disciplines.length > 0 ? ` — ${discipli
       </p>
     </div>
 
-    <!-- Right: hero placeholder (Epic 5 injects image here) -->
-    <div class="hidden md:block" aria-hidden="true"></div>
+    <!-- Right: hero image — fades in on band hover/focus (Story 5.4) -->
+    <div class="hidden md:block" aria-hidden="true">
+      {
+        heroImage && (
+          <img
+            src={heroImage}
+            alt=""
+            aria-hidden="true"
+            class="h-full w-full object-cover"
+          />
+        )
+      }
+    </div>
   </a>
 </article>
 
@@ -71,10 +81,25 @@ const metaLine = `${date.slice(0, 4)}${disciplines.length > 0 ? ` — ${discipli
     transform: scaleX(1);
   }
 
+  /* Hero image — starts hidden, fades in on band hover/focus */
+  img {
+    opacity: 0;
+    transition: opacity 250ms var(--ease-mark);
+  }
+
+  /* Hero image reveal — opacity only, same timing as inkstroke underline */
+  :global(.group):hover img,
+  :global(.group):focus-within img {
+    opacity: 0.35;
+  }
+
   /* Forced-colors (Windows High Contrast): hide custom pseudo-element.
      System handles link styling; prevents phantom layout element. */
   @media (forced-colors: active) {
     h2::after {
+      display: none;
+    }
+    img {
       display: none;
     }
   }

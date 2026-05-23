@@ -98,3 +98,10 @@
 ## Deferred from: code review of 5-3-scroll-driven-folio-and-project-spine-indicator (2026-05-23)
 
 - Spine dot ScrollTrigger fires on mobile scroll for a CSS-hidden element — `initSpineDot()` finds `[data-spine="dot"]` via `querySelector` even when the parent container is `hidden md:block`. The trigger runs on every mobile scroll tick updating a `display:none` element. Harmless but wasteful. Pre-existing pattern (dot is hidden via CSS, not absent from DOM on mobile). Revisit if mobile scroll performance becomes a concern.
+
+## Deferred from: code review of 5-4-project-band-hover-hero-reveal (2026-05-23)
+
+- No `loading="lazy"` on hero `<img>` — above-the-fold bands should not lazy-load, but below-the-fold bands would benefit. No hero images exist yet; revisit when first `heroImage` is added to a project.
+- No `object-position` specified — default center crop may not suit all hero images. Design decision for when real images are added.
+- Broad `img` selector in scoped CSS — a future second `<img>` in `ProjectBand.astro` would unexpectedly get `opacity: 0` and the hover reveal. Component is simple enough to be acceptable now; scope the selector if a second image is ever added.
+- No `decoding="async"` on hero `<img>` — minor performance omission; add when hero images are introduced.

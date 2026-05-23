@@ -11,6 +11,7 @@ const projects = defineCollection({
     disciplines: z.array(z.string()),
     draft: z.boolean().default(false),
     order: z.number(),
+    heroImage: z.string().startsWith("/").optional(), // absolute path, e.g. "/heroes/foo.jpg"
   }),
 });
 
