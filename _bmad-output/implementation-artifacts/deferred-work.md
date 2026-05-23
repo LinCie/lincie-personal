@@ -70,3 +70,7 @@
 - Duplicate `visibilitychange` listeners if module re-executes — Vite module deduplication guarantees single execution per session, so this is not a current defect. Revisit if module loading strategy changes in Epic 4/5.
 - Unconditional `globalTimeline.resume()` could override intentional external pauses — no competing pause logic exists in current scope. Revisit when Epic 4/5 introduce scroll-damping or section-pin pause logic that may need to pause the timeline independently.
 - `gsap.globalTimeline` is typed in `gsap-core.d.ts:209` and stable across GSAP 3.x but is not part of GSAP's advertised public API surface. Verify on any GSAP major version bump.
+
+## Deferred from: code review of 3-5-inkstroke-underline-animation-and-hover-affordances (2026-05-23)
+
+- Hardcoded `250ms` duration literal in multiple transition declarations across `InlineLink.astro` and `ProjectBand.astro`. No CSS custom property exists for this value (falls between `--dur-quick` 150ms and `--dur-breath` 400ms). Spec explicitly documents this as intentional with a future token pass planned to introduce `--dur-mark`. Revisit when the token pass is scheduled.

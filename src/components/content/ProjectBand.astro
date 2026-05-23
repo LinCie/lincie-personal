@@ -28,7 +28,7 @@ const metaLine = `${date.slice(0, 4)}${disciplines.length > 0 ? ` — ${discipli
     <div class="py-7 md:py-14">
       <h2
         transition:name={`project-title-${slug}`}
-        class="text-ink font-serif leading-[1.05] font-normal"
+        class="text-ink relative font-serif leading-[1.05] font-normal"
         style="font-size: clamp(2.5rem, 6.5vw, 4.25rem);"
       >
         {title}
@@ -42,3 +42,40 @@ const metaLine = `${date.slice(0, 4)}${disciplines.length > 0 ? ` — ${discipli
     <div class="hidden md:block" aria-hidden="true"></div>
   </a>
 </article>
+
+<style>
+  /* Inkstroke underline on project title — draws on band hover/focus.
+     Thicker (2px) than InlineLink (1px) because display-size type needs
+     proportionally heavier stroke weight for visual balance. */
+  h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 250ms var(--ease-mark);
+  }
+
+  /* group hover/focus propagation from the parent <article class="group">.
+     :global(.group) prevents Astro from adding the data-astro-cid attribute
+     to the .group selector — Tailwind utility classes are not scoped.
+     The h2::after part IS scoped (correct — targets only this component's h2).
+     :focus-within (not :focus-visible) because the focusable <a> is a child
+     of <article>; the article itself is not focusable. */
+  :global(.group):hover h2::after,
+  :global(.group):focus-within h2::after {
+    transform: scaleX(1);
+  }
+
+  /* Forced-colors (Windows High Contrast): hide custom pseudo-element.
+     System handles link styling; prevents phantom layout element. */
+  @media (forced-colors: active) {
+    h2::after {
+      display: none;
+    }
+  }
+</style>

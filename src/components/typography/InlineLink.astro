@@ -95,7 +95,7 @@ if (isExternal) {
     background-color: var(--ink);
     transform: scaleX(0);
     transform-origin: left;
-    /* transition added in Story 3.5 */
+    transition: transform 250ms var(--ease-mark);
   }
 
   .inline-link:hover::after,
@@ -112,12 +112,33 @@ if (isExternal) {
     color: var(--meta);
     margin-left: 0.25em;
     opacity: 0;
-    /* transition added in Story 3.5 */
+    transition: opacity 250ms var(--ease-mark);
   }
 
   .inline-link:hover .inline-link-annotation,
   .inline-link:focus-visible .inline-link-annotation {
     opacity: 1;
+  }
+
+  /* ============================================================
+     NAME / CITE HOVER AFFORDANCE
+     Targets <span class="name"> or <cite> children inside the link.
+     font-weight transition on the variable font (Newsreader) interpolates
+     the wght axis smoothly — architecture-approved exception to the
+     transform/opacity-only rule (see deferred-work.md, Story 2.4 review).
+     :global() is required because these elements come from Markdown/MDX
+     slot content, which Astro's scoping does not reach.
+     ============================================================ */
+  .inline-link :global(span.name),
+  .inline-link :global(cite) {
+    transition: font-weight 250ms var(--ease-mark);
+  }
+
+  .inline-link:hover :global(span.name),
+  .inline-link:hover :global(cite),
+  .inline-link:focus-visible :global(span.name),
+  .inline-link:focus-visible :global(cite) {
+    font-weight: 500;
   }
 
   /* ============================================================

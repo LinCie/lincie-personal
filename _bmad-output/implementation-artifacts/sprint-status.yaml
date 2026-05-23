@@ -69,7 +69,7 @@ development_status:
   3-2-page-reveal-sequence: done
   3-3-cursor-afterglow: done
   3-4-astro-view-transitions-with-frame-persistence: done
-  3-5-inkstroke-underline-animation-and-hover-affordances: backlog
+  3-5-inkstroke-underline-animation-and-hover-affordances: done
   epic-3-retrospective: optional
 
   # Epic 4: Scroll System & Long-Form Polish — Damped Scroll, Section Pin, Fog-Lifting, Footnote Reveal
