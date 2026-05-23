@@ -78,7 +78,7 @@ development_status:
   # Epic 5: Ambient Life — Paper-Tone Drift, Live Local Time & Final Polish
   epic-5: in-progress
   5-1-paper-tone-drift-time-of-day-color-bands: done
-  5-2-live-local-time-in-tr-corner: backlog
+  5-2-live-local-time-in-tr-corner: done
   5-3-scroll-driven-folio-and-project-spine-indicator: backlog
   5-4-project-band-hover-hero-reveal: backlog
   epic-5-retrospective: optional

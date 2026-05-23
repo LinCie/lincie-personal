@@ -86,3 +86,5 @@ document.addEventListener("astro:after-swap", init);
 
 // ─── Initial Run ──────────────────────────────────────────────────────────────
 init();
+
+export {};

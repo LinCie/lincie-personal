@@ -1,0 +1,15 @@
+---
+// src/components/frame/LocalTime.astro
+// TR corner label — live local time.
+// Static fallback: "00:00 LOCAL". Updated by local-time.ts.
+---
+
+<!-- TR: Local time — hidden on mobile, aria-hidden (decorative) -->
+<span
+  aria-hidden="true"
+  data-frame="local-time"
+  data-reveal="corner"
+  class="text-meta fixed top-7 right-7 z-50 hidden font-mono text-[0.75rem] leading-none tracking-widest uppercase md:block"
+>
+  00:00 LOCAL
+</span>

@@ -1,5 +1,6 @@
 ---
 // src/components/frame/Frame.astro
+import LocalTime from "./LocalTime.astro";
 
 interface Props {
   sectionLabel?: string;
@@ -22,15 +23,7 @@ const { sectionLabel = "" } = Astro.props;
   </a>
 </nav>
 
-<!-- TR: Local time placeholder — hidden on mobile, aria-hidden (decorative) -->
-<span
-  aria-hidden="true"
-  data-frame="local-time"
-  data-reveal="corner"
-  class="text-meta fixed top-7 right-7 z-50 hidden font-mono text-[0.75rem] leading-none tracking-widest uppercase md:block"
->
-  00:00 LOCAL
-</span>
+<LocalTime />
 
 <!-- BL: Section label — hidden on mobile, aria-hidden (decorative) -->
 <span

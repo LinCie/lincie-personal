@@ -90,3 +90,7 @@
 
 - `showHint()` called every reverse-scroll frame — `sessionStorage` guard makes this functionally correct, but the function is invoked on every `onUpdate` frame where velocity < 0 rather than only on the first. A `let hintShown = false` flag in `init()` scope would eliminate the per-frame call overhead. Minor inefficiency; not a correctness bug.
 - Aborted View Transition leaves footnotes hidden — if `astro:before-swap` fires (cleanup runs) but `astro:after-swap` never fires (aborted transition), `init()` never runs and footnotes stay hidden until full reload. Pre-existing pattern across all scripts (`scroll.ts`, `cursor.ts`, etc.); not introduced by this story.
+
+## Deferred from: code review of 5-2-live-local-time-in-tr-corner (2026-05-23)
+
+- BR folio span (`Frame.astro`) has `data-reveal="corner"` — contradicts spec documentation which states the BR folio should NOT have this attribute (always visible, intentional asymmetry). Means folio starts at opacity 0 and is revealed by reveal.ts rather than being always visible. Pre-existing issue, not introduced by story 5.2. Address when Frame.astro is next touched (likely story 5.3 or 5.4).
