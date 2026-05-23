@@ -70,12 +70,12 @@ development_status:
   epic-3-retrospective: done
 
   # Epic 4: Scroll System & Long-Form Polish — Damped Scroll, Section Pin, Fog-Lifting, Footnote Reveal
-  epic-4: in-progress
+  epic-4: done
   4-1-damped-smooth-scroll: done
   4-2-section-pin-on-long-form-pages: done
   4-3-fog-lifting-section-reveal: done
   4-4-reverse-scroll-footnote-reveal-with-hint: done
-  epic-4-retrospective: optional
+  epic-4-retrospective: done
 
   # Epic 5: Ambient Life — Paper-Tone Drift, Live Local Time & Final Polish
   epic-5: backlog
