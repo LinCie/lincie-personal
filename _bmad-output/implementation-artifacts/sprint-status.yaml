@@ -1,6 +1,7 @@
 # generated: 2026-05-21
 last_updated: 2026-05-23
 
+
 # project: lincie
 # project_key: NOKEY
 # tracking_system: file-system
@@ -64,13 +65,14 @@ development_status:
   epic-2-retrospective: done
 
   # Epic 3: Signature Motion — Reveal, Cursor, Transitions & Hover Language
-  epic-3: in-progress
+  epic-3: done
   3-1-gsap-initialization-and-lifecycle-pattern: done
   3-2-page-reveal-sequence: done
   3-3-cursor-afterglow: done
   3-4-astro-view-transitions-with-frame-persistence: done
+  
   3-5-inkstroke-underline-animation-and-hover-affordances: done
-  epic-3-retrospective: optional
+  epic-3-retrospective: done
 
   # Epic 4: Scroll System & Long-Form Polish — Damped Scroll, Section Pin, Fog-Lifting, Footnote Reveal
   epic-4: backlog
