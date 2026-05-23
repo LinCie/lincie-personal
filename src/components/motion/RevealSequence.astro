@@ -1,0 +1,14 @@
+---
+// src/components/motion/RevealSequence.astro
+// Renders the baseline grid overlay div targeted by reveal.ts.
+// This component has no visible output at rest — it exists as a GSAP target.
+---
+
+<!-- Baseline grid overlay: decorative, invisible at rest, pointer-events-none -->
+<div
+  data-reveal="grid"
+  aria-hidden="true"
+  class="pointer-events-none fixed inset-0 z-40 opacity-0"
+  style="background-image: repeating-linear-gradient(to bottom, var(--hairline) 0px, var(--hairline) 1px, transparent 1px, transparent var(--baseline)); background-size: 100% var(--baseline);"
+>
+</div>

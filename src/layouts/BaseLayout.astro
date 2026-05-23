@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { Font } from "astro:assets";
 import { ClientRouter } from "astro:transitions";
 import Frame from "../components/frame/Frame.astro";
+import RevealSequence from "../components/motion/RevealSequence.astro";
 
 interface Props {
   title: string;
@@ -63,9 +64,14 @@ const ogImageUrl = new URL(resolvedOgImage, Astro.site ?? "https://lincie.me")
     <!-- Frame: persists across View Transitions -->
     <Frame sectionLabel={sectionLabel} transition:persist />
 
+    <!-- Reveal sequence: baseline grid overlay (GSAP target, invisible at rest) -->
+    <RevealSequence />
+
     <!-- Main content: cross-fades on navigation -->
     <main id="main-content" tabindex="-1" transition:animate="fade">
       <slot />
     </main>
-  </body>
+  </body><script>
+    import "../scripts/reveal.ts";
+  </script>
 </html>

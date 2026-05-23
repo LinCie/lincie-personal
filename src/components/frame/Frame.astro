@@ -9,7 +9,11 @@ const { sectionLabel = "" } = Astro.props;
 ---
 
 <!-- TL: INDEX link — the only interactive corner, inside <nav> -->
-<nav class="fixed top-7 left-7 z-50" aria-label="Site navigation">
+<nav
+  class="fixed top-7 left-7 z-50"
+  aria-label="Site navigation"
+  data-reveal="corner"
+>
   <a
     href="/"
     class="text-meta hover:text-ink focus-visible:outline-ink p-4 font-mono text-[0.75rem] leading-none tracking-widest uppercase no-underline transition-colors duration-(--dur-quick) focus-visible:outline-2 focus-visible:outline-offset-2"
@@ -22,6 +26,7 @@ const { sectionLabel = "" } = Astro.props;
 <span
   aria-hidden="true"
   data-frame="local-time"
+  data-reveal="corner"
   class="text-meta fixed top-7 right-7 z-50 hidden font-mono text-[0.75rem] leading-none tracking-widest uppercase md:block"
 >
   00:00 LOCAL
@@ -30,6 +35,7 @@ const { sectionLabel = "" } = Astro.props;
 <!-- BL: Section label — hidden on mobile, aria-hidden (decorative) -->
 <span
   aria-hidden="true"
+  data-reveal="corner"
   class="text-meta fixed bottom-7 left-7 z-50 hidden font-mono text-[0.75rem] leading-none tracking-widest uppercase md:block"
 >
   {sectionLabel}
@@ -38,6 +44,7 @@ const { sectionLabel = "" } = Astro.props;
 <!-- BR: Folio — always visible, aria-hidden (decorative) -->
 <span
   aria-hidden="true"
+  data-reveal="corner"
   class="text-meta fixed right-7 bottom-7 z-50 font-mono text-[0.75rem] leading-none tracking-widest uppercase"
 >
   001 / 001

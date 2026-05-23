@@ -110,3 +110,14 @@
   outline: 2px solid var(--ink);
   outline-offset: 2px;
 }
+
+/* ============================================================
+   REVEAL SEQUENCE — Initial Hidden State
+   Corner labels start invisible. The reveal script (reveal.ts)
+   animates them in on first session load, or paints them visible
+   immediately on subsequent navigations. This prevents a flash
+   of visible corners before the script executes.
+   ============================================================ */
+[data-reveal="corner"] {
+  opacity: 0;
+}
