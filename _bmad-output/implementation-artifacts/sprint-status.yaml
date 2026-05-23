@@ -68,7 +68,7 @@ development_status:
   3-1-gsap-initialization-and-lifecycle-pattern: done
   3-2-page-reveal-sequence: done
   3-3-cursor-afterglow: done
-  3-4-astro-view-transitions-with-frame-persistence: backlog
+  3-4-astro-view-transitions-with-frame-persistence: done
   3-5-inkstroke-underline-animation-and-hover-affordances: backlog
   epic-3-retrospective: optional
 

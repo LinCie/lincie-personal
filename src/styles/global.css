@@ -121,3 +121,39 @@
 [data-reveal="corner"] {
   opacity: 0;
 }
+
+/* ============================================================
+   VIEW TRANSITION KEYFRAMES — 8px settle/drift
+   Exit: content slides down 8px and fades out.
+   Enter: content drifts up from -8px and fades in.
+   Easing and duration reference token layer.
+   ============================================================ */
+@keyframes vt-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes vt-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+::view-transition-old(main-content) {
+  animation: vt-exit var(--dur-arrive) var(--ease-settle) both;
+}
+
+::view-transition-new(main-content) {
+  animation: vt-enter var(--dur-arrive) var(--ease-settle) both;
+}
