@@ -79,3 +79,9 @@
 
 - One-shot viewport gate — `window.innerWidth < 768` evaluated once at init; resize/rotation after load leaves pin state stale. Spec explicitly notes "Acceptable for MVP — the site is not designed for live resizing."
 - `ScrollTrigger.refresh()` called before `astro:page-load` — footnote DOM move (via `FootnoteReveal.astro`) happens on `astro:page-load`, after `astro:after-swap`. Spec Dev Notes confirm this is safe: footnote move affects the margin column height, not the content column where `<h2>` elements live. No additional refresh needed.
+
+## Deferred from: code review of 4-3-fog-lifting-section-reveal (2026-05-23)
+
+- Layout thrash from `getBoundingClientRect` in forEach loop in `initFogLifting()` — each element triggers a forced layout reflow. Pre-existing pattern in the codebase (section pin does the same). Not introduced by this story; acceptable for MVP content volumes.
+- Mutable module-level `foggedElements[]` accumulates across re-inits if `init()` fires without a preceding `cleanup()`. Pre-existing pattern; Astro lifecycle guarantees `astro:before-swap` (cleanup) fires before `astro:after-swap` (init).
+- `REDUCED_MOTION` evaluated once at module load — if the user changes their OS reduced-motion preference mid-session, the gate does not re-evaluate. Pre-existing pattern; consistent with rest of codebase.

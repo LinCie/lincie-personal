@@ -9,16 +9,16 @@ import {
   COARSE_POINTER,
 } from "./gsap-init";
 
-// Suppress unused-import warning — gsap is used by Story 4.3 (fog-lifting)
-// that will extend this file with gsap.to() timelines.
-void gsap;
-
 // ─── Instance Registry ────────────────────────────────────────────────────────
 const instances: { kill: () => void }[] = [];
 
 // Tracks h2 elements that had inline styles applied by initSectionPin().
 // Cleared in cleanup() so styles don't persist on reused DOM nodes.
 const pinnedHeadings: HTMLElement[] = [];
+
+// Tracks elements that had inline filter applied by initFogLifting().
+// Cleared in cleanup() so blur doesn't persist on reused DOM nodes.
+const foggedElements: HTMLElement[] = [];
 
 // ─── Cleanup ──────────────────────────────────────────────────────────────────
 function cleanup(): void {
@@ -32,6 +32,12 @@ function cleanup(): void {
     el.style.zIndex = "";
   });
   pinnedHeadings.length = 0;
+
+  // Remove inline filter styles set by initFogLifting()
+  foggedElements.forEach((el) => {
+    el.style.filter = "";
+  });
+  foggedElements.length = 0;
 }
 
 // ─── Section Pin ──────────────────────────────────────────────────────────────
@@ -67,6 +73,47 @@ function initSectionPin(): void {
   });
 }
 
+// ─── Fog Lifting ──────────────────────────────────────────────────────────────
+function initFogLifting(): void {
+  // Gate: no blur under reduced motion (FR-20)
+  if (REDUCED_MOTION) return;
+
+  const proseBody = document.querySelector("[data-prose-body]");
+  if (!proseBody) return; // not a long-form page — guard anyway
+
+  const elements = proseBody.querySelectorAll<HTMLElement>(":scope > *");
+  elements.forEach((el) => {
+    // Only blur elements that are below the fold at init time.
+    // Elements already in the viewport should not start blurred.
+    const rect = el.getBoundingClientRect();
+    if (rect.top <= window.innerHeight * 0.85) return;
+
+    // Apply initial blur inline — removed in cleanup()
+    el.style.filter = "blur(7px)";
+    foggedElements.push(el);
+
+    const trigger = ScrollTrigger.create({
+      trigger: el,
+      start: "top 85%",
+      once: true,
+      onEnter: () => {
+        const tween = gsap.to(el, {
+          filter: "blur(0px)",
+          duration: 0.4,
+          ease: "none",
+          overwrite: true,
+          // clearProps removes the inline filter entirely after the tween,
+          // preventing a stacking context from persisting on the element
+          // (relevant for Safari when the element is also a section-pin target).
+          clearProps: "filter",
+        });
+        instances.push(tween);
+      },
+    });
+    instances.push(trigger);
+  });
+}
+
 // ─── Init ─────────────────────────────────────────────────────────────────────
 function init(): void {
   // Damped smooth scroll — gates on COARSE_POINTER || REDUCED_MOTION (FR-23)
@@ -78,7 +125,10 @@ function init(): void {
   // Section pin — gates on REDUCED_MOTION + viewport width (FR-24, UX-DR2)
   initSectionPin();
 
-  // Recalculate all trigger positions after both behaviors are registered,
+  // Fog-lifting — gates on REDUCED_MOTION (FR-20)
+  initFogLifting();
+
+  // Recalculate all trigger positions after all behaviors are registered,
   // deferred until fonts are ready so Newsreader metrics are used for layout
   // calculations rather than the fallback font (prevents FOUT-shifted offsets).
   void document.fonts.ready.then(() => {
