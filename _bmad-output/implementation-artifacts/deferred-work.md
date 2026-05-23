@@ -74,3 +74,8 @@
 ## Deferred from: code review of 3-5-inkstroke-underline-animation-and-hover-affordances (2026-05-23)
 
 - Hardcoded `250ms` duration literal in multiple transition declarations across `InlineLink.astro` and `ProjectBand.astro`. No CSS custom property exists for this value (falls between `--dur-quick` 150ms and `--dur-breath` 400ms). Spec explicitly documents this as intentional with a future token pass planned to introduce `--dur-mark`. Revisit when the token pass is scheduled.
+
+## Deferred from: code review of 4-2-section-pin-on-long-form-pages (2026-05-23)
+
+- One-shot viewport gate — `window.innerWidth < 768` evaluated once at init; resize/rotation after load leaves pin state stale. Spec explicitly notes "Acceptable for MVP — the site is not designed for live resizing."
+- `ScrollTrigger.refresh()` called before `astro:page-load` — footnote DOM move (via `FootnoteReveal.astro`) happens on `astro:page-load`, after `astro:after-swap`. Spec Dev Notes confirm this is safe: footnote move affects the margin column height, not the content column where `<h2>` elements live. No additional refresh needed.
