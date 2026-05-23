@@ -85,3 +85,8 @@
 - Layout thrash from `getBoundingClientRect` in forEach loop in `initFogLifting()` — each element triggers a forced layout reflow. Pre-existing pattern in the codebase (section pin does the same). Not introduced by this story; acceptable for MVP content volumes.
 - Mutable module-level `foggedElements[]` accumulates across re-inits if `init()` fires without a preceding `cleanup()`. Pre-existing pattern; Astro lifecycle guarantees `astro:before-swap` (cleanup) fires before `astro:after-swap` (init).
 - `REDUCED_MOTION` evaluated once at module load — if the user changes their OS reduced-motion preference mid-session, the gate does not re-evaluate. Pre-existing pattern; consistent with rest of codebase.
+
+## Deferred from: code review of 4-4-reverse-scroll-footnote-reveal-with-hint (2026-05-23)
+
+- `showHint()` called every reverse-scroll frame — `sessionStorage` guard makes this functionally correct, but the function is invoked on every `onUpdate` frame where velocity < 0 rather than only on the first. A `let hintShown = false` flag in `init()` scope would eliminate the per-frame call overhead. Minor inefficiency; not a correctness bug.
+- Aborted View Transition leaves footnotes hidden — if `astro:before-swap` fires (cleanup runs) but `astro:after-swap` never fires (aborted transition), `init()` never runs and footnotes stay hidden until full reload. Pre-existing pattern across all scripts (`scroll.ts`, `cursor.ts`, etc.); not introduced by this story.
