@@ -64,3 +64,9 @@
 - Empty projects array — `/projects` index renders blank content area with no visitor feedback. Acceptable for now since home page prevents linking to `/projects` when `projects.length < 3`. Fix: add an empty-state message or redirect when `projects.length === 0`.
 - `entry.id` as slug may contain path separators if nested content files are added — would produce 404 and invalid `transition:name`. Pre-existing pattern in `index.astro` and `[...slug].astro`. Fix: sanitize `entry.id` or enforce flat content directory structure in schema/docs.
 - `order` NaN risk if schema relaxes `order` to optional — `a.data.order - b.data.order` with NaN produces non-deterministic sort. Pre-existing sort pattern. Fix: add `.default(999)` to `order` schema or guard with `?? 999` in sort comparator.
+
+## Deferred from: code review of 3-1-gsap-initialization-and-lifecycle-pattern (2026-05-22)
+
+- Duplicate `visibilitychange` listeners if module re-executes — Vite module deduplication guarantees single execution per session, so this is not a current defect. Revisit if module loading strategy changes in Epic 4/5.
+- Unconditional `globalTimeline.resume()` could override intentional external pauses — no competing pause logic exists in current scope. Revisit when Epic 4/5 introduce scroll-damping or section-pin pause logic that may need to pause the timeline independently.
+- `gsap.globalTimeline` is typed in `gsap-core.d.ts:209` and stable across GSAP 3.x but is not part of GSAP's advertised public API surface. Verify on any GSAP major version bump.
