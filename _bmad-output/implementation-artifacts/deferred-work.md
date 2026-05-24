@@ -23,13 +23,13 @@
 
 ## Deferred from: code review of 1-6-colophon-and-404-page (2026-05-22)
 
-- Recovery links in `404.astro` point to `/projects/building-lincie` and `/writing/craft-as-proof` — routes that don't exist yet. These are the correct MVP targets per spec (FR-14); the pages are created in Epic 2. Until then, both links will 404. No change needed; revisit when Epic 2 stories are complete.
+- ~~Recovery links in `404.astro` point to `/projects/building-lincie` and `/writing/craft-as-proof`~~ — **RESOLVED**: Both content files exist (`building-lincie.md`, `craft-as-proof.md`). Links are valid.
 - HTTP 404 status code in static output mode: Astro generates `dist/404.html`; whether the server responds with HTTP 404 depends on the hosting platform. Vercel handles this automatically by convention. Confirm before launch; add a `vercel.json` routes entry if needed.
 - `border-hairline` Tailwind token in `Colophon.astro` requires `@theme inline` in `global.css`. If `inline` is ever removed during a refactor, the border silently disappears. Pre-existing; not introduced by this story.
 
 ## Deferred from: code review of 1-7-seo-meta-and-build-validation (2026-05-22)
 
-- `Astro.site` not set in `astro.config.mjs` — the hardcoded fallback `"https://lincie.me"` is always active (not just in dev). Story Dev Notes acknowledge this as acceptable at MVP. Consider adding `site: "https://lincie.me"` to `astro.config.mjs` for correctness.
+- ~~`Astro.site` not set in `astro.config.mjs`~~ — **RESOLVED 2026-05-24**: `site: "https://lincie.me"` added to `astro.config.mjs`.
 - Non-HTTPS or `data:` absolute `ogImage` values bypass base URL resolution — `new URL()` ignores the base for absolute inputs. No current caller passes non-HTTPS values; future-caller concern when per-page OG images are introduced in v1.1.
 - Missing `og:url` tag — requires per-page canonical URL resolution, explicitly excluded from scope in Dev Notes. Revisit when canonical URL strategy is defined.
 - `og:type` hardcoded to `"website"` for all pages — article/blog pages (Epic 2) will need `"article"` type. Revisit when essay/project page templates are built.
@@ -93,7 +93,7 @@
 
 ## Deferred from: code review of 5-2-live-local-time-in-tr-corner (2026-05-23)
 
-- BR folio span (`Frame.astro`) has `data-reveal="corner"` — contradicts spec documentation which states the BR folio should NOT have this attribute (always visible, intentional asymmetry). Means folio starts at opacity 0 and is revealed by reveal.ts rather than being always visible. Pre-existing issue, not introduced by story 5.2. Address when Frame.astro is next touched (likely story 5.3 or 5.4).
+- ~~BR folio span (`Frame.astro`) has `data-reveal="corner"`~~ — **RESOLVED 2026-05-24**: `data-reveal="corner"` removed from `Folio.astro`. Folio is now always visible at full opacity, consistent with the spec's intentional asymmetry.
 
 ## Deferred from: code review of 5-3-scroll-driven-folio-and-project-spine-indicator (2026-05-23)
 
